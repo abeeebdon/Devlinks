@@ -1,5 +1,12 @@
 'use client'
-import { createContext, useContext, ReactNode, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { auth } from '../../config'
 import {
   doc,
@@ -25,6 +32,14 @@ type AuthContextType = {
   getData: () => Promise<void>
   getAll: () => Promise<void>
   setDocs: (task: Task) => Promise<void>
+  userDetails: Users
+  setUserDetails: Dispatch<SetStateAction<Users>>
+}
+type Users = {
+  firstName: string
+  lastName: string
+  email: string
+  profileImageUrl: string
 }
 type Task = {
   name: string
@@ -38,6 +53,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
   const [userId, setUserId] = useState<string>('')
+  const [userDetails, setUserDetails] = useState<Users>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    profileImageUrl: '',
+  })
   const router = useRouter()
   const createUserProfile = async (user: any) => {
     try {
@@ -63,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUserId(user.uid)
       }
       await createUserProfile(user)
-      router.push('/links')
+      router.push('/profile')
       // Handle successful user creation (e.g., store user information)
     } catch (error) {
       console.error('Error creating user:', error)
@@ -76,7 +97,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const docRef = doc(firestore, 'users', user.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        console.log('User profile:', docSnap.data())
+        const incomingData = docSnap.data()
+        console.log(incomingData)
+        const { firstName, lastName, email, profileImageUrl } = incomingData
+        setUserDetails({ firstName, lastName, email, profileImageUrl })
       } else {
         console.log('No such document!')
       }
@@ -170,7 +194,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ userId, createUser, signUser, getData, getAll, setDocs }}
+      value={{
+        userId,
+        createUser,
+        userDetails,
+        setUserDetails,
+        signUser,
+        getData,
+        getAll,
+        setDocs,
+      }}
     >
       {children}
     </AuthContext.Provider>

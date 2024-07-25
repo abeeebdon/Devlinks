@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { storage, firestore } from '../../src/config'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
@@ -9,7 +9,7 @@ import { useAuth } from '@/app/context/AuthContext'
 const ProfileImage = () => {
   const [file, setFile] = useState<File | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const { userId } = useAuth()
+  const { userId, userDetails } = useAuth()
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -42,6 +42,11 @@ const ProfileImage = () => {
       }
     }
   }
+  useEffect(() => {
+    if (userDetails?.profileImageUrl) {
+      setImageUrl(userDetails?.profileImageUrl)
+    }
+  }, [])
 
   return (
     <div className="w-full items-center p-5 mt-10 bg-lgray border rounded-lg mb-6 flex  gap-6">
