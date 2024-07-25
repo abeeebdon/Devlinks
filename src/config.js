@@ -1,28 +1,31 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
-
-import { getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Import the functions you need from the SDKs you need
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCi_sP1gaBJF_J0tqQgFA7JsVrwjjAjIJQ',
-  authDomain: 'devlinks-260e2.firebaseapp.com',
-  projectId: 'devlinks-260e2',
-  storageBucket: 'devlinks-260e2.appspot.com',
-  messagingSenderId: '343303825018',
-  appId: '1:343303825018:web:bb65dd4cab039137267dc3',
-  measurementId: 'G-HDWW93VPNG',
+  apiKey: 'AIzaSyAtLF_E_CLWEjcWPNzwKzGyj_rwApru5iU',
+  authDomain: 'abeebdon-99047.firebaseapp.com',
+  projectId: 'abeebdon-99047',
+  storageBucket: 'abeebdon-99047.appspot.com',
+  messagingSenderId: '591981393548',
+  appId: '1:591981393548:web:5fb64d4adabc3ee1bb6da9',
 }
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
-const analytics = getAnalytics(app)
 const auth = getAuth(app)
 const firestore = getFirestore(app)
+const storage = getStorage(app)
 const db = getFirestore(app)
-export { db, firestore, auth }
+export { db, firestore, auth, storage }

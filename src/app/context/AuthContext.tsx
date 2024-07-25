@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useContext, ReactNode } from 'react'
-import { auth } from '../firebase'
+import { auth } from '../../config'
 import {
   doc,
   getDoc,
@@ -9,14 +9,14 @@ import {
   setDoc,
   addDoc,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../../config'
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
-import { firestore } from '../firebase'
+import { firestore } from '../../config'
 // Define the AuthContext type
 type AuthContextType = {
   createUser: (email: string, password: string) => Promise<void>
