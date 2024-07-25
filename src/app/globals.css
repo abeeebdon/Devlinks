@@ -10,6 +10,9 @@ input[type='file'] {
   opacity: 0;
   position: absolute;
 }
+.options {
+  border-bottom: 1px solid black;
+}
 @layer components {
   .heading {
     @apply text-[32px] leading-[48px] font-bold text-dgrap;

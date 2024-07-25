@@ -27,7 +27,7 @@ const Profile = () => {
       <div className="hidden md:flex w-full p-[40px] h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
         <Image src="/images/phone.svg" alt="phone" width={300} height={630} />
       </div>
-      <div className="bg-white w-full basis-[60%] p-[40px] pb-0 rounded-lg">
+      <div className="md:basis-[60%] bg-white w-full  p-[40px] pb-0 rounded-lg">
         <h2 className="heading text-dgrap ">Profile Details</h2>
         <p className="paragraph">
           Add your details to create a personal touch to your profile.

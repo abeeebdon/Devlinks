@@ -40,6 +40,7 @@ type Users = {
   lastName: string
   email: string
   profileImageUrl: string
+  links: { identifier: string; ref: string }[]
 }
 type Task = {
   name: string
@@ -58,6 +59,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     lastName: '',
     email: '',
     profileImageUrl: '',
+    links: [
+      {
+        identifier: '',
+        ref: '',
+      },
+    ],
   })
   const router = useRouter()
   const createUserProfile = async (user: any) => {
@@ -100,7 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const incomingData = docSnap.data()
         console.log(incomingData)
         const { firstName, lastName, email, profileImageUrl } = incomingData
-        setUserDetails({ firstName, lastName, email, profileImageUrl })
+        setUserDetails({ firstName, lastName, email, profileImageUrl, links })
       } else {
         console.log('No such document!')
       }

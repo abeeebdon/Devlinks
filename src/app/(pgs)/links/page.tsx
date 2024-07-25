@@ -11,12 +11,6 @@ const Links = () => {
       </div>
       <div className="md:basis-[60%] bg-white  p-[40px] pb-0 rounded-lg">
         <CreateLink />
-        <div className=" absolute flex justify-end  p-6 cursor-pointer mt-10">
-          <Button
-            text="save"
-            className="text-white hover:bg-phover rounded-lg bg-[#633CFF] bg-opacity-25 py-[11px] px-[27px]"
-          />
-        </div>
       </div>
     </section>
   )
