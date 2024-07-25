@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, ReactNode } from 'react'
+import { createContext, useContext, ReactNode, useState } from 'react'
 import { auth } from '../../config'
 import {
   doc,
@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation'
 import { firestore } from '../../config'
 // Define the AuthContext type
 type AuthContextType = {
+  userId: string
   createUser: (email: string, password: string) => Promise<void>
   signUser: (email: string, password: string) => Promise<void>
   getData: () => Promise<void>
@@ -36,7 +37,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 // Define the AuthProvider component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
-
+  const [userId, setUserId] = useState<string>('')
   const router = useRouter()
   const createUserProfile = async (user: any) => {
     try {
@@ -58,6 +59,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       )
       const user = userCredential.user
+      if (user.uid) {
+        setUserId(user.uid)
+      }
       await createUserProfile(user)
       router.push('/links')
       // Handle successful user creation (e.g., store user information)
@@ -90,6 +94,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       )
       const user = userCredential.user
+      if (user.uid) {
+        setUserId(user.uid)
+      }
       console.log(user)
       await fetchUserProfile(user)
 
@@ -163,7 +170,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ createUser, signUser, getData, getAll, setDocs }}
+      value={{ userId, createUser, signUser, getData, getAll, setDocs }}
     >
       {children}
     </AuthContext.Provider>
