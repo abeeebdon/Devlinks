@@ -38,6 +38,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
 
   const router = useRouter()
+  const createUserProfile = async (user: any) => {
+    try {
+      await setDoc(doc(firestore, 'users', user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+      })
+      console.log('User profile created')
+    } catch (error) {
+      console.error('Error creating user profile:', error)
+    }
+  }
+
   const createUser = async (email: string, password: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -46,11 +58,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       )
       const user = userCredential.user
+      await createUserProfile(user)
       router.push('/links')
       // Handle successful user creation (e.g., store user information)
     } catch (error) {
       console.error('Error creating user:', error)
       // Handle error (e.g., show error message to user)
+    }
+  }
+
+  const fetchUserProfile = async (user: any) => {
+    try {
+      const docRef = doc(firestore, 'users', user.uid)
+      const docSnap = await getDoc(docRef)
+      if (docSnap.exists()) {
+        console.log('User profile:', docSnap.data())
+      } else {
+        console.log('No such document!')
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
     }
   }
 
@@ -64,11 +91,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       )
       const user = userCredential.user
       console.log(user)
+      await fetchUserProfile(user)
+
       router.push('/links')
 
       // Handle successful sign-in (e.g., store user information)
     } catch (error) {
-      console.error('Error signing in user:', error)
+      console.log('Error signing in user:', error)
 
       // Handle error (e.g., show error message to user)
     }
