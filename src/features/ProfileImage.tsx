@@ -35,48 +35,19 @@ const ProfileImage = () => {
     <div className="p-5 mt-10 bg-lgray rounded-lg mb-6 flex justify-between items-center gap-6">
       <p className="paragraph basis-[40%]">Profile Picture</p>
 
-      <div className="flex justify-between gap-6 items-center ">
-        <div className="relative bg-lpurple w-[193px] h-[193px] rounded-lg text-center pt-[61px] pb-[60px] flex flex-col justify-center items-center">
-          <div
-            className={`my-2 basis-[80%] ${
-              imageUrl ? 'bg-white' : 'bg-purple'
-            }  `}
-          >
-            {!imageUrl && (
-              <Image
-                src="/images/upload.svg"
-                alt="upload"
-                width={40}
-                height={40}
-              />
-            )}
-          </div>
+      <section className="flex justify-between gap-6 items-center ">
+        <article className="w-[443px] h-[443px] flex flex-col justify-center items-center bg-lpurple">
+          <Image src="/images/upload.svg" alt="upload" width={40} height={40} />
           <p className="paragraph font-[600] text-purple">
             {imageUrl ? 'Change Image' : '+ Upload Image'}
           </p>
-          {imageUrl && (
-            <div className="absolute w-full h-full opacity-1 cursor-pointer">
-              <Image
-                src={imageUrl}
-                width={193}
-                height={193}
-                alt="Profile"
-                className="object-cover rounded-lg"
-              />
-            </div>
-          )}
-          <input
-            type="file"
-            placeholder="Choose an image"
-            onChange={handleFileChange}
-            className="absolute w-full h-full opacity-0 cursor-pointer"
-          />
-        </div>
-
-        <p className="label text-gray min-w-[100px] w-full max-w-[127px]">
-          Image must be below 1024x1024px. Use PNG or JPG format.
-        </p>
-      </div>
+        </article>
+        <article>
+          <p className="label text-gray  ">
+            Image must be below 1024x1024px. Use PNG or JPG format.
+          </p>
+        </article>
+      </section>
     </div>
   )
 }

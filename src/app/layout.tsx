@@ -5,8 +5,8 @@ import { AuthProvider } from './context/AuthContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Next Tutorial',
-  description: 'Tutorial with code evolution',
+  title: 'Devlinks',
+  description: 'Devlinks Task',
 }
 
 export default function RootLayout({
