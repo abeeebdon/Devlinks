@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import classNames from 'classnames'
 const Headers = () => {
   const pathname = usePathname()
 
@@ -12,11 +11,11 @@ const Headers = () => {
         <Image src="/images/logo.svg" width={32} height={32} alt="Logo" />
         <Image src="/images/devlinks.svg" width={108} height={21} alt="Logo" />
       </div>
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-2 items-center">
         <Link
           href="/links"
-          className={`flex gap-2 items-center border, ${
-            pathname === '/links' ? 'bg-red' : 'bg-transparent'
+          className={`hover:text-purple flex gap-2 items-center px-[27px]  py-[11px] rounded-lg paragraph font-[600]  , ${
+            pathname === '/links' ? 'bg-lpurple text-purple' : 'bg-transparent'
           }`}
         >
           <Image src="/images/links.svg" width={20} height={20} alt="link" />
@@ -24,8 +23,10 @@ const Headers = () => {
         </Link>
         <Link
           href="/profile"
-          className={`flex gap-2 items-center border, ${
-            pathname === '/profile' ? 'bg-red' : 'bg-transparent'
+          className={`hover:text-purple flex gap-2 items-center px-[27px]  py-[11px] rounded-lg paragraph font-[600] , ${
+            pathname === '/profile'
+              ? 'bg-lpurple text-purple'
+              : 'bg-transparent'
           }`}
         >
           <Image src="/images/user.svg" width={20} height={20} alt="link" />
@@ -33,7 +34,10 @@ const Headers = () => {
         </Link>
       </div>
       <div>
-        <Link href="/preview">
+        <Link
+          href="/preview"
+          className="hover:bg-lpurple flex gap-2 items-center px-[27px]  py-[11px] rounded-lg paragraph border border-purple text-purple font-[600]"
+        >
           <span className="hidden sm:block">Preview</span>
           <Image
             src="/images/eye.svg"

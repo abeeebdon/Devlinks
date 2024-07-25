@@ -2,6 +2,7 @@
 import Button from '@/components/Button'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
 type Users = {
   email: string
@@ -13,15 +14,21 @@ const Login = () => {
     email: '',
     password: '',
   })
+  const [isLoading, setIsLoading] = useState(false)
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
-
-  const handleSubmit = () => {
+  const { signUser } = useAuth()
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
     if (userDetails.email === '') {
       setEmailErr(true)
+      return
     } else if (userDetails.password.length < 8) {
       setPasswordErr(true)
+      return
     }
+    setIsLoading(true)
+    signUser(userDetails.email, userDetails.password)
   }
   return (
     <section className=" xs:p-[40px]">
@@ -29,7 +36,13 @@ const Login = () => {
       <p className="paragraph mt-2">
         Add your details below to get back into the app
       </p>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => handleSubmit(e)}
+        onClick={() => {
+          setPasswordErr(false)
+          setEmailErr(false)
+        }}
+      >
         <div className="mt-[40px]">
           <label htmlFor="email" className="label">
             Email address
@@ -78,6 +91,7 @@ const Login = () => {
           </div>
         </div>
         <Button
+          isLoading={isLoading}
           text="Login"
           className="w-full py-[11px] cursor-pointer hover:bg-phover bg-purple paragraph text-white font-[600] mb-6 rounded-lg"
         />
@@ -85,7 +99,10 @@ const Login = () => {
 
       <p className="paragraph text-center">
         Dont have an account?{' '}
-        <Link href="/signup" className="text-purple">
+        <Link
+          href="/signup"
+          className="text-purple block xs:inline hover:text-phover "
+        >
           Create an account
         </Link>
       </p>

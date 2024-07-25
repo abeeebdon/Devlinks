@@ -2,8 +2,8 @@
 import Button from '@/components/Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/app/context/AuthContext'
 type Users = {
   email: string
   password: string
@@ -19,6 +19,8 @@ const Signup = () => {
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
 
+  const { createUser } = useAuth()
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (userDetails.email === '') {
@@ -28,7 +30,8 @@ const Signup = () => {
     } else if (userDetails.password !== userDetails.cPassword) {
       setPasswordErr(true)
     }
-    console.log('successful')
+
+    createUser(userDetails.email, userDetails.password)
   }
 
   return (
@@ -130,7 +133,10 @@ const Signup = () => {
 
       <p className="paragraph text-center">
         Already have an account?{' '}
-        <Link href="/signup" className="text-purple block xs:inline">
+        <Link
+          href="/login"
+          className="text-purple block xs:inline hover:text-phover"
+        >
           Login
         </Link>
       </p>
