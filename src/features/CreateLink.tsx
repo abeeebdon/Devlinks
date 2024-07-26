@@ -6,6 +6,11 @@ import { storage, firestore } from '../config'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { useAuth } from '@/app/context/AuthContext'
 
+interface Link {
+  identifier: string
+  ref: string
+}
+
 const CreateLink = () => {
   const { userId, userDetails, setUserDetails } = useAuth()
 
@@ -24,33 +29,29 @@ const CreateLink = () => {
   const [createLink, setCreateLink] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [showLinks, setShowLinks] = useState(false)
-  const [links, setLinks] = useState([
-    {
-      identifier: '',
-      ref: '',
-    },
-  ])
-  const [linkData, setLinkData] = useState({
-    identifier: '',
-    ref: '',
-  })
-  console.log(selectedOption)
+  const [links, setLinks] = useState<Link[]>([])
+  const [linkData, setLinkData] = useState<Link>({ identifier: '', ref: '' })
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    setLinks([...links, linkData])
-    setUserDetails({ ...userDetails, links })
-    const userDocRef = doc(firestore, 'users', userId) // Replace 'user-id' with the actual user ID
+
+    const updatedLinks = [...links, linkData]
+    setLinks(updatedLinks)
+    setUserDetails({ ...userDetails, links: updatedLinks })
+
+    const userDocRef = doc(firestore, 'users', userId)
     try {
-      await setDoc(userDocRef, userDetails, { merge: true })
-      console.log('Image URL saved to Firestore')
+      await setDoc(
+        userDocRef,
+        { ...userDetails, links: updatedLinks },
+        { merge: true }
+      )
+      console.log('Done')
     } catch (error) {
-      console.error('Error saving image URL to Firestore:', error)
+      console.error('Error saving data to Firestore:', error)
     }
   }
-  useEffect(() => {
-    setLinkData({ ...linkData, identifier: selectedOption.value })
-  }, [selectedOption])
+
   return (
     <>
       <div>
@@ -112,6 +113,10 @@ const CreateLink = () => {
                             className="options flex items-center px-4 gap-2  border-b-[1px] py-2  cursor-pointer hover:bg-gray-100"
                             onClick={() => {
                               setSelectedOption(option)
+                              setLinkData({
+                                ...linkData,
+                                identifier: selectedOption.value,
+                              })
 
                               setShowLinks(false)
                             }}

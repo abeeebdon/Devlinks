@@ -6,6 +6,7 @@ import {
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react'
 import { auth } from '../../config'
 import {
@@ -51,20 +52,17 @@ type Task = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 // Define the AuthProvider component
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
   const [userId, setUserId] = useState<string>('')
+  const [userData, setUserData] = useState()
   const [userDetails, setUserDetails] = useState<Users>({
     firstName: '',
     lastName: '',
     email: '',
     profileImageUrl: '',
-    links: [
-      {
-        identifier: '',
-        ref: '',
-      },
-    ],
+    links: [],
   })
   const router = useRouter()
   const createUserProfile = async (user: any) => {
@@ -74,12 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         firstName: '',
         lastName: '',
         profileImageUrl: '',
-        links: [
-          {
-            identifier: '',
-            ref: '',
-          },
-        ],
+        links: [],
         createdAt: new Date(),
       })
       console.log('User profile created')
@@ -108,14 +101,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  // getting the user from the backend
+
   const fetchUserProfile = async (user: any) => {
+    console.log(user.uid)
     try {
       const docRef = doc(firestore, 'users', user.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         const incomingData = docSnap.data()
         console.log(incomingData)
-        const { firstName, lastName, email, profileImageUrl,links } = incomingData
+        const { firstName, lastName, email, profileImageUrl, links } =
+          incomingData
         setUserDetails({ firstName, lastName, email, profileImageUrl, links })
       } else {
         console.log('No such document!')
@@ -124,6 +121,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Error fetching user profile:', error)
     }
   }
+
+  useEffect(() => {
+    fetchUserProfile(userId)
+    console.log(userDetails)
+  }, [userDetails])
 
   // Function to sign in an existing user
   const signUser = async (email: string, password: string) => {
@@ -134,6 +136,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       )
       const user = userCredential.user
+      console.log(user.uid)
+      setUserId(user.uid)
       if (user.uid) {
         setUserId(user.uid)
       }
