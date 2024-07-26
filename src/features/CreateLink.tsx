@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Button from '@/components/Button'
 import { storage, firestore } from '../config'
@@ -24,10 +24,22 @@ const CreateLink = () => {
   const [createLink, setCreateLink] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [showLinks, setShowLinks] = useState(false)
+  const [links, setLinks] = useState([
+    {
+      identifier: '',
+      ref: '',
+    },
+  ])
+  const [linkData, setLinkData] = useState({
+    identifier: '',
+    ref: '',
+  })
   console.log(selectedOption)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setLinks([...links, linkData])
+    setUserDetails({ ...userDetails, links })
     const userDocRef = doc(firestore, 'users', userId) // Replace 'user-id' with the actual user ID
     try {
       await setDoc(userDocRef, userDetails, { merge: true })
@@ -36,6 +48,9 @@ const CreateLink = () => {
       console.error('Error saving image URL to Firestore:', error)
     }
   }
+  useEffect(() => {
+    setLinkData({ ...linkData, identifier: selectedOption.value })
+  }, [selectedOption])
   return (
     <>
       <div>
@@ -131,7 +146,11 @@ const CreateLink = () => {
                       />
                       <input
                         type="text"
-                        id="email"
+                        id="text"
+                        value={linkData.ref}
+                        onChange={(e) => {
+                          setLinkData({ ...linkData, ref: e.target.value })
+                        }}
                         placeholder="e.g. https://www.github.com/johnappleseed"
                         className="w-full text-dgrap paragraph bg-transparent"
                       />

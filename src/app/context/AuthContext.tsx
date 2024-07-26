@@ -71,6 +71,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await setDoc(doc(firestore, 'users', user.uid), {
         email: user.email,
+        firstName: '',
+        lastName: '',
+        profileImageUrl: '',
+        links: [
+          {
+            identifier: '',
+            ref: '',
+          },
+        ],
         createdAt: new Date(),
       })
       console.log('User profile created')
@@ -106,7 +115,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (docSnap.exists()) {
         const incomingData = docSnap.data()
         console.log(incomingData)
-        const { firstName, lastName, email, profileImageUrl } = incomingData
+        const { firstName, lastName, email, profileImageUrl,links } = incomingData
         setUserDetails({ firstName, lastName, email, profileImageUrl, links })
       } else {
         console.log('No such document!')
