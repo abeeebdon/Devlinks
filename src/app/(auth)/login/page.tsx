@@ -93,7 +93,7 @@ const Login = () => {
         <Button
           isLoading={isLoading}
           text="Login"
-          className="w-full py-[11px] cursor-pointer hover:bg-phover bg-purple paragraph text-white font-[600] mb-6 rounded-lg"
+          className="w-full text-center py-[11px] cursor-pointer hover:bg-phover bg-purple paragraph text-white font-[600] mb-6 rounded-lg"
         />
       </form>
 

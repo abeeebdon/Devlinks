@@ -13,6 +13,11 @@ input[type='file'] {
 .options {
   border-bottom: 1px solid black;
 }
+
+.scrollBar {
+  scrollbar-width: thin;
+}
+
 @layer components {
   .heading {
     @apply text-[32px] leading-[48px] font-bold text-dgrap;

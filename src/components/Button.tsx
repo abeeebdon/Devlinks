@@ -1,14 +1,16 @@
 'use client'
 import { Dispatch, SetStateAction } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 
 type Props = {
   className: string
+  btnClassName?: string
   text: string
   onClick?: Dispatch<SetStateAction<boolean>>
   isLoading?: boolean
 }
 const Button = (props: Props) => {
-  const { className, text, onClick, isLoading } = props
+  const { className, text, onClick, isLoading, btnClassName } = props
   const handleClick = () => {
     if (onClick) {
       onClick(true) // Sets the state to true
@@ -16,11 +18,11 @@ const Button = (props: Props) => {
   }
 
   return (
-    <div onClick={handleClick}>
+    <div className={className} onClick={handleClick}>
       {isLoading ? (
-        <p>Loading.... </p>
+        <CgSpinner className="mx-auto w-[3rem] text-[3rem] text-white animate-spin" />
       ) : (
-        <button className={className}>{text}</button>
+        <button className={btnClassName}>{text}</button>
       )}
     </div>
   )

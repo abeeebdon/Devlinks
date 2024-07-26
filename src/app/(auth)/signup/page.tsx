@@ -4,6 +4,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
+import { useRouter } from 'next/navigation'
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { firestore, auth } from '../../../config'
+
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  setDoc,
+  addDoc,
+} from 'firebase/firestore'
+import Loading from '@/components/Loading'
+
 type Users = {
   email: string
   password: string
@@ -11,6 +30,8 @@ type Users = {
 }
 
 const Signup = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean>(false)
   const [userDetails, setUserDetails] = useState<Users>({
     email: '',
     password: '',
@@ -19,8 +40,8 @@ const Signup = () => {
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
 
-  const { createUser } = useAuth()
-
+  const router = useRouter()
+  const { userId, setUserId } = useAuth()
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (userDetails.email === '') {
@@ -30,7 +51,45 @@ const Signup = () => {
     } else if (userDetails.password !== userDetails.cPassword) {
       setPasswordErr(true)
     }
+    const createUserProfile = async (user: any) => {
+      setIsLoading(true)
 
+      try {
+        await setDoc(doc(firestore, 'users', user.uid), {
+          email: user.email,
+          firstName: '',
+          lastName: '',
+          profileImageUrl: '',
+          links: [],
+          createdAt: new Date(),
+        })
+        console.log('User profile created')
+      } catch (error) {
+        setIsLoading(false)
+        setIsError(true)
+        console.error('Error creating user profile:', error)
+      }
+    }
+
+    const createUser = async (email: string, password: string) => {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+        const user = userCredential.user
+        if (user.uid) {
+          setUserId(user.uid)
+        }
+        await createUserProfile(user)
+        router.push('/profile')
+        // Handle successful user creation (e.g., store user information)
+      } catch (error) {
+        console.error(error)
+        // Handle error (e.g., show error message to user)
+      }
+    }
     createUser(userDetails.email, userDetails.password)
   }
 
@@ -124,11 +183,14 @@ const Signup = () => {
         <p className="label text-gray">
           Password must contain at least 8 characters
         </p>
-
-        <Button
-          text="Create new account"
-          className="w-full py-[11px] my-6 cursor-pointer hover:bg-phover bg-purple paragraph text-white font-[600] mb-6 rounded-lg"
-        />
+        {isError && <p className='text-red'>There is an error</p>}
+        <div>
+          <Button
+            isLoading={isLoading}
+            text="Create new account"
+            className="w-full py-[11px] my-6 cursor-pointer hover:bg-phover bg-purple paragraph text-white font-[600] text-center mb-6 rounded-lg"
+          />
+        </div>
       </form>
 
       <p className="paragraph text-center">

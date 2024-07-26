@@ -4,49 +4,14 @@ import {
   useContext,
   ReactNode,
   useState,
-  Dispatch,
-  SetStateAction,
   useEffect,
 } from 'react'
 import { auth } from '../../config'
-import {
-  doc,
-  getDoc,
-  collection,
-  getDocs,
-  setDoc,
-  addDoc,
-} from 'firebase/firestore'
-import { db } from '../../config'
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth'
+import { AuthContextType, Users } from '@/types/Types'
+import { doc, getDoc } from 'firebase/firestore'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import { firestore } from '../../config'
-// Define the AuthContext type
-type AuthContextType = {
-  userId: string
-  createUser: (email: string, password: string) => Promise<void>
-  signUser: (email: string, password: string) => Promise<void>
-  getData: () => Promise<void>
-  getAll: () => Promise<void>
-  setDocs: (task: Task) => Promise<void>
-  userDetails: Users
-  setUserDetails: Dispatch<SetStateAction<Users>>
-}
-type Users = {
-  firstName: string
-  lastName: string
-  email: string
-  profileImageUrl: string
-  links: { identifier: string; ref: string }[]
-}
-type Task = {
-  name: string
-  password: string
-}
 
 // Create the AuthContext with the default value
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -56,7 +21,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
   const [userId, setUserId] = useState<string>('')
-  const [userData, setUserData] = useState()
   const [userDetails, setUserDetails] = useState<Users>({
     firstName: '',
     lastName: '',
@@ -65,46 +29,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     links: [],
   })
   const router = useRouter()
-  const createUserProfile = async (user: any) => {
-    try {
-      await setDoc(doc(firestore, 'users', user.uid), {
-        email: user.email,
-        firstName: '',
-        lastName: '',
-        profileImageUrl: '',
-        links: [],
-        createdAt: new Date(),
-      })
-      console.log('User profile created')
-    } catch (error) {
-      console.error('Error creating user profile:', error)
-    }
-  }
-
-  const createUser = async (email: string, password: string) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      )
-      const user = userCredential.user
-      if (user.uid) {
-        setUserId(user.uid)
-      }
-      await createUserProfile(user)
-      router.push('/profile')
-      // Handle successful user creation (e.g., store user information)
-    } catch (error) {
-      console.error('Error creating user:', error)
-      // Handle error (e.g., show error message to user)
-    }
-  }
 
   // getting the user from the backend
 
   const fetchUserProfile = async (user: any) => {
-    console.log(user.uid)
     try {
       const docRef = doc(firestore, 'users', user.uid)
       const docSnap = await getDoc(docRef)
@@ -168,37 +96,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Error getting document:', error)
     }
   }
-  const getTasks = async () => {
-    const col = collection(db, 'Users')
-    const snapshot = await getDocs(col)
-    const newData = snapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      }
-    })
-    console.log(newData)
-  }
+  // const getTasks = async () => {
+  //   const col = collection(db, 'Users')
+  //   const snapshot = await getDocs(col)
+  //   const newData = snapshot.docs.map((doc) => {
+  //     return {
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }
+  //   })
+  //   console.log(newData)
+  // }
 
-  const getAll = async () => {
-    // const querySnapshot = await getDocs(collection(db, 'Users'))
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, ' => ', doc.data())
-    // })
-    getTasks()
-  }
-  const setDocs = async (task: Task) => {
-    const col = collection(db, 'Users')
-    try {
-      addDoc(col, {
-        name: task.name,
-        password: task.password,
-      })
-      console.log(col)
-      router.push('/')
-    } catch (error) {}
-  }
+  // const getAll = async () => {
+  //   // const querySnapshot = await getDocs(collection(db, 'Users'))
+  //   // querySnapshot.forEach((doc) => {
+  //   //   // doc.data() is never undefined for query doc snapshots
+  //   //   console.log(doc.id, ' => ', doc.data())
+  //   // })
+  //   getTasks()
+  // }
 
   //   const setDocs = async () => {
   //     const resp = await setDoc(doc(db, 'Users', 'LA'), {
@@ -216,13 +133,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         userId,
-        createUser,
+        setUserId,
         userDetails,
         setUserDetails,
         signUser,
         getData,
-        getAll,
-        setDocs,
       }}
     >
       {children}
