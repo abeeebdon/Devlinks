@@ -10,7 +10,7 @@ import { Link } from '@/types/Types'
 import { options } from '@/components/data'
 
 const Links = () => {
-  const { userId, userDetails, setUserDetails, getData } = useAuth()
+  const { userId, userDetails, setUserDetails } = useAuth()
 
   const [createLink, setCreateLink] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState(options[0])

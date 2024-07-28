@@ -2,12 +2,13 @@ import { SetStateAction, Dispatch } from 'react'
 export type AuthContextType = {
   userId: string
   setUserId: Dispatch<SetStateAction<string>>
-  signUser: (email: string, password: string) => Promise<void>
+  fetchUserProfile: (user: any) => Promise<void>
   getData: () => Promise<void>
   userDetails: Users
   setUserDetails: Dispatch<SetStateAction<Users>>
 }
 export type Users = {
+  id: string
   firstName: string
   lastName: string
   email: string

@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { storage, firestore } from '../../../config'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { useAuth } from '@/app/context/AuthContext'
 import { useEffect, useState } from 'react'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
@@ -11,7 +11,7 @@ const Profile = () => {
   const { userId, userDetails, setUserDetails } = useAuth()
   const [downloadedUrl, setDownloadedUrl] = useState<string>('')
   const [imageUrl, setImageUrl] = useState<string | null>(null)
-
+  const [done, setDone] = useState(false)
   // onMounting check for image from the backend
 
   useEffect(() => {
@@ -62,13 +62,14 @@ const Profile = () => {
     const userDocRef = doc(firestore, 'users', userId) // Replace 'user-id' with the actual user ID
     try {
       await setDoc(userDocRef, userDetails, { merge: true })
+      setDone(true)
       console.log('Image URL saved to Firestore')
     } catch (error) {
       console.error('Error saving image URL to Firestore:', error)
     }
   }
   return (
-    <section className="flex mt-8 gap-6 justify-between ">
+    <section className="relative flex mt-8 gap-6 justify-between ">
       <div className="hidden md:flex w-full p-[40px] h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
         <Image src="/images/phone.svg" alt="phone" width={300} height={630} />
       </div>
@@ -157,6 +158,16 @@ const Profile = () => {
           </button>
         </form>
       </div>
+      {done && (
+        <div className="absolute bottom-0 flex justify-center  left-0 right-0 ">
+          <div className="flex gap-2 p-4 px-6 rounded-lg items-center bg-dgrap ">
+            <Image src="/images/floppy.svg" width={20} height={20} alt="" />
+            <p className="paragraph   text-lgray">
+              Your changes have been successfully saved!
+            </p>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

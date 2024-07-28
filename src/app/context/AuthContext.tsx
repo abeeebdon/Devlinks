@@ -5,6 +5,8 @@ import {
   ReactNode,
   useState,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 import { auth } from '../../config'
 import { AuthContextType, Users } from '@/types/Types'
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
   const [userId, setUserId] = useState<string>('')
   const [userDetails, setUserDetails] = useState<Users>({
+    id: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -39,9 +42,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (docSnap.exists()) {
         const incomingData = docSnap.data()
         console.log(incomingData)
-        const { firstName, lastName, email, profileImageUrl, links } =
+        const { firstName, lastName, email, profileImageUrl, links, id } =
           incomingData
-        setUserDetails({ firstName, lastName, email, profileImageUrl, links })
+        setUserDetails({
+          firstName,
+          lastName,
+          email,
+          profileImageUrl,
+          links,
+          id,
+        })
       } else {
         console.log('No such document!')
       }
@@ -53,10 +63,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     fetchUserProfile(userId)
     console.log(userDetails)
-  }, [userDetails])
+  }, [userDetails, userId])
 
   // Function to sign in an existing user
-  const signUser = async (email: string, password: string) => {
+  const signUser = async (
+    email: string,
+    password: string,
+    setIsError: Dispatch<SetStateAction<boolean>>
+  ) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -78,6 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.log('Error signing in user:', error)
 
+      setIsError(true)
       // Handle error (e.g., show error message to user)
     }
   }
@@ -136,7 +151,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUserId,
         userDetails,
         setUserDetails,
-        signUser,
+        fetchUserProfile,
+
         getData,
       }}
     >

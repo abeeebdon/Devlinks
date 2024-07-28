@@ -2,26 +2,14 @@
 import Button from '@/components/Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { firestore, auth } from '../../../config'
 
-import {
-  doc,
-  getDoc,
-  collection,
-  getDocs,
-  setDoc,
-  addDoc,
-} from 'firebase/firestore'
-import Loading from '@/components/Loading'
+import { doc, setDoc } from 'firebase/firestore'
 
 type Users = {
   email: string
@@ -32,7 +20,7 @@ type Users = {
 const Signup = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
-  const [userDetails, setUserDetails] = useState<Users>({
+  const [userSignup, setUserSignup] = useState<Users>({
     email: '',
     password: '',
     cPassword: '',
@@ -41,14 +29,14 @@ const Signup = () => {
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
 
   const router = useRouter()
-  const { userId, setUserId } = useAuth()
+  const { userDetails, setUserDetails, setUserId } = useAuth()
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (userDetails.email === '') {
+    if (userSignup.email === '') {
       setEmailErr(true)
-    } else if (userDetails.password.length < 8) {
+    } else if (userSignup.password.length < 8) {
       setPasswordErr(true)
-    } else if (userDetails.password !== userDetails.cPassword) {
+    } else if (userSignup.password !== userSignup.cPassword) {
       setPasswordErr(true)
     }
     const createUserProfile = async (user: any) => {
@@ -56,6 +44,7 @@ const Signup = () => {
 
       try {
         await setDoc(doc(firestore, 'users', user.uid), {
+          id: user.uid,
           email: user.email,
           firstName: '',
           lastName: '',
@@ -81,6 +70,7 @@ const Signup = () => {
         const user = userCredential.user
         if (user.uid) {
           setUserId(user.uid)
+          setUserDetails({ ...userDetails, id: user.uid })
         }
         await createUserProfile(user)
         router.push('/profile')
@@ -90,7 +80,7 @@ const Signup = () => {
         // Handle error (e.g., show error message to user)
       }
     }
-    createUser(userDetails.email, userDetails.password)
+    createUser(userSignup.email, userSignup.password)
   }
 
   return (
@@ -125,9 +115,9 @@ const Signup = () => {
               type="text"
               id="email"
               placeholder="e.g alex@gmail.com"
-              value={userDetails.email}
+              value={userSignup.email}
               onChange={(e) =>
-                setUserDetails({ ...userDetails, email: e.target.value })
+                setUserSignup({ ...userSignup, email: e.target.value })
               }
               className="text-dgrap paragraph"
             />
@@ -148,9 +138,9 @@ const Signup = () => {
               type="password"
               id="createPass"
               placeholder="Enter your password"
-              value={userDetails.password}
+              value={userSignup.password}
               onChange={(e) =>
-                setUserDetails({ ...userDetails, password: e.target.value })
+                setUserSignup({ ...userSignup, password: e.target.value })
               }
               className="text-dgrap paragraph"
             />
@@ -172,9 +162,9 @@ const Signup = () => {
               type="password"
               id="confirmPass"
               placeholder="At least 8 characters"
-              value={userDetails.cPassword}
+              value={userSignup.cPassword}
               onChange={(e) =>
-                setUserDetails({ ...userDetails, cPassword: e.target.value })
+                setUserSignup({ ...userSignup, cPassword: e.target.value })
               }
             />
             {passwordErr && <p className="err label">Please check again</p>}
@@ -183,7 +173,7 @@ const Signup = () => {
         <p className="label text-gray">
           Password must contain at least 8 characters
         </p>
-        {isError && <p className='text-red'>There is an error</p>}
+        {isError && <p className="text-red">There is an error</p>}
         <div>
           <Button
             isLoading={isLoading}

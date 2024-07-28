@@ -4,31 +4,67 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../../config'
+import { useRouter } from 'next/navigation'
+
 type Users = {
   email: string
   password: string
 }
 
 const Login = () => {
-  const [userDetails, setUserDetails] = useState<Users>({
+  const [userSignin, setUserSignin] = useState<Users>({
     email: '',
     password: '',
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
-  const { signUser } = useAuth()
+  const { userDetails, setUserDetails, setUserId, fetchUserProfile } = useAuth()
+  const router = useRouter()
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (userDetails.email === '') {
+    if (userSignin.email === '') {
       setEmailErr(true)
       return
-    } else if (userDetails.password.length < 8) {
+    } else if (userSignin.password.length < 8) {
       setPasswordErr(true)
       return
     }
     setIsLoading(true)
-    signUser(userDetails.email, userDetails.password)
+    const signUser = async (email: string, password: string) => {
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+        const user = userCredential.user
+        console.log(user.uid)
+        setUserId(user.uid)
+        if (user.uid) {
+          setUserId(user.uid)
+          setUserDetails({ ...userDetails, id: user.uid })
+        }
+        console.log(user)
+        await fetchUserProfile(user)
+
+        router.push('/links')
+
+        // Handle successful sign-in (e.g., store user information)
+      } catch (error) {
+        setIsLoading(false)
+        setIsError(true)
+        console.log('Error signing in user:', error)
+
+        // Handle error (e.g., show error message to user)
+      }
+    }
+
+    signUser(userSignin.email, userSignin.password)
   }
   return (
     <section className=" xs:p-[40px]">
@@ -58,9 +94,9 @@ const Login = () => {
               type="text"
               id="email"
               placeholder="e.g alex@gmail.com"
-              value={userDetails.email}
+              value={userSignin.email}
               onChange={(e) =>
-                setUserDetails({ ...userDetails, email: e.target.value })
+                setUserSignin({ ...userSignin, email: e.target.value })
               }
               className="text-dgrap paragraph"
             />
@@ -81,9 +117,9 @@ const Login = () => {
               type="password"
               id="createPass"
               placeholder="Enter your password"
-              value={userDetails.password}
+              value={userSignin.password}
               onChange={(e) =>
-                setUserDetails({ ...userDetails, password: e.target.value })
+                setUserSignin({ ...userSignin, password: e.target.value })
               }
               className="text-dgrap paragraph"
             />
