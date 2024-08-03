@@ -1,11 +1,10 @@
 'use client'
+
 import Button from '@/components/Button'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../../config'
 import { useRouter } from 'next/navigation'
 
 type Users = {
@@ -22,11 +21,12 @@ const Login = () => {
   const [isError, setIsError] = useState(false)
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
-  const { userDetails, setUserDetails, setUserId, fetchUserProfile } = useAuth()
+  const { setUserDetails, userDetails, setUserId, fetchUserProfile } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
+
     if (userSignin.email === '') {
       setEmailErr(true)
       return
@@ -34,46 +34,49 @@ const Login = () => {
       setPasswordErr(true)
       return
     }
+
     setIsLoading(true)
-    const signUser = async (email: string, password: string) => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        const user = userCredential.user
-        console.log(user.uid)
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userSignin.email,
+          password: userSignin.password,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        const user = result.user
         setUserId(user.uid)
-        if (user.uid) {
-          setUserId(user.uid)
-          setUserDetails({ ...userDetails, id: user.uid })
-        }
-        console.log(user)
+        setUserDetails({ ...userDetails, id: user.uid })
         await fetchUserProfile(user)
-
         router.push('/links')
-
-        // Handle successful sign-in (e.g., store user information)
-      } catch (error) {
-        setIsLoading(false)
+      } else {
         setIsError(true)
-        console.log('Error signing in user:', error)
-
-        // Handle error (e.g., show error message to user)
+        console.error('Login failed:', result.message)
       }
+    } catch (error) {
+      setIsError(true)
+      console.error('Error logging in:', error)
+    } finally {
+      setIsLoading(false)
     }
-
-    signUser(userSignin.email, userSignin.password)
   }
+
   return (
-    <section className=" xs:p-[40px]">
+    <section className="xs:p-[40px]">
       <h2 className="heading">Login</h2>
       <p className="paragraph mt-2">
         Add your details below to get back into the app
       </p>
       <form
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
         onClick={() => {
           setPasswordErr(false)
           setEmailErr(false)
@@ -100,7 +103,7 @@ const Login = () => {
               }
               className="text-dgrap paragraph"
             />
-            {emailErr && <p className="err label ">Can’t be empty</p>}
+            {emailErr && <p className="err label">Can’t be empty</p>}
           </div>
         </div>
         <div className="my-6">
@@ -137,7 +140,7 @@ const Login = () => {
         Dont have an account?{' '}
         <Link
           href="/signup"
-          className="text-purple block xs:inline hover:text-phover "
+          className="text-purple block xs:inline hover:text-phover"
         >
           Create an account
         </Link>

@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Devlinks',
   description: 'Devlinks Task',
+  icons: '/images/logo.svg',
 }
 
 export default function RootLayout({

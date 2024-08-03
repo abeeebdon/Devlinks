@@ -8,6 +8,7 @@ import { useAuth } from '@/app/context/AuthContext'
 import LinkCard from '../../../features/LinkCard'
 import { Link } from '@/types/Types'
 import { options } from '@/components/data'
+import DisplayingLink from '@/features/DisplayingLink'
 
 const Links = () => {
   const { userId, userDetails, setUserDetails } = useAuth()
@@ -37,14 +38,31 @@ const Links = () => {
         { merge: true }
       )
       setChangesDone(true)
+      setTimeout(() => setChangesDone(false), 3000) // Hide the message after 3 seconds
     } catch (error) {
       console.error('Error saving data to Firestore:', error)
     }
   }
+
+  console.log(userDetails.links)
+
   return (
     <section className="flex gap-6 mt-6 relative justify-between">
       <div className="hidden md:flex w-full p-[40px] h-[80vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
-        <Image src="/images/phone.svg" alt="phone" width={300} height={630} />
+        <Image
+          src="/images/phone.svg"
+          alt="phone"
+          width={300}
+          height={630}
+          className="relative"
+        />
+        <div className="absolute top-[38%]  ">
+          {userDetails?.links?.map((data, index) => (
+            <Fragment key={index}>
+              <DisplayingLink data={data} />
+            </Fragment>
+          ))}
+        </div>
       </div>
       <form
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
@@ -59,122 +77,114 @@ const Links = () => {
             </p>
             <Button
               text="+ Add new Link"
-              onClick={setCreateLink}
+              onClick={() => setCreateLink(true)}
               className="mt-[40px] py-[11px] px-[27x] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple rounded-lg"
             />
           </div>
           <div className=" bg-lgray text-center mt-6 p-5">
-            {links.length > 0 ? (
+            {links?.length > 0 ? (
               <>
-                {links.map((link, index) => {
-                  return (
-                    <div key={index}>
-                      <LinkCard link={link} id={index + 1} />
-                    </div>
-                  )
-                })}
+                {links.map((link, index) => (
+                  <div key={index}>
+                    <LinkCard link={link} id={index + 1} />
+                  </div>
+                ))}
                 {createLink && (
-                  <>
-                    <div className="flex text-left justify-center flex-col mb-6">
-                      <section className="flex justify-between w-full">
-                        <div className="flex items-center">
-                          <Image
-                            src="/images/TwoBar.svg"
-                            alt="AddPhone"
-                            width={20}
-                            height={20}
-                          />
-                          <h4 className="paragraph font-bold">
-                            Link #{links.length + 1}
-                          </h4>
-                        </div>
-
-                        <p className="paragraph">Remove</p>
-                      </section>
-                      <section>
-                        <div className=" relative text-left">
-                          <label htmlFor="email" className="label text-left">
-                            Platform
-                          </label>
-                          <div
-                            onClick={() => setShowLinks(!showLinks)}
-                            className="focus-within:shadow-xl bg-white input-container border-bcolor flex items-center justify-between"
-                          >
-                            <div className="flex items-center gap-2">
-                              <Image
-                                src={selectedOption.imageUrl}
-                                alt={selectedOption.label}
-                                width={16}
-                                height={16}
-                              />
-                              <p>{selectedOption.label}</p>
-                            </div>
-
-                            <span>▼</span>
-                          </div>
-                          {showLinks && (
-                            <div className="w-full absolute mt-2 bottom-0 z-10 bg-white border rounded inset-0">
-                              {options.map((option) => (
-                                <div
-                                  key={option.value}
-                                  className="options flex items-center px-4 gap-2  border-b-[1px] py-2  cursor-pointer hover:bg-gray-100"
-                                  onClick={() => {
-                                    setSelectedOption(option)
-                                    setLinkData({
-                                      ...linkData,
-                                      identifier: selectedOption.value,
-                                    })
-
-                                    setShowLinks(false)
-                                  }}
-                                >
-                                  <Image
-                                    src={option.imageUrl}
-                                    alt={option.label}
-                                    width={16}
-                                    height={16}
-                                  />
-
-                                  {option.label}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div className="mt-4">
-                          <label
-                            htmlFor="email"
-                            className="label "
-                            style={{ textAlign: 'left' }}
-                          >
-                            Link
-                          </label>
-                          <div className="input-container bg-white border-bcolor">
+                  <div className="flex text-left justify-center flex-col mb-6">
+                    <section className="flex justify-between w-full">
+                      <div className="flex items-center">
+                        <Image
+                          src="/images/TwoBar.svg"
+                          alt="AddPhone"
+                          width={20}
+                          height={20}
+                        />
+                        <h4 className="paragraph font-bold">
+                          Link #{links.length + 1}
+                        </h4>
+                      </div>
+                      <p className="paragraph">Remove</p>
+                    </section>
+                    <section>
+                      <div className=" relative text-left">
+                        <label htmlFor="email" className="label text-left">
+                          Platform
+                        </label>
+                        <div
+                          onClick={() => setShowLinks(!showLinks)}
+                          className="focus-within:shadow-xl bg-white input-container border-bcolor flex items-center justify-between"
+                        >
+                          <div className="flex items-center gap-2">
                             <Image
-                              src="/images/links-black.svg"
-                              alt="env"
+                              src={selectedOption.imageUrl}
+                              alt={selectedOption.label}
                               width={16}
                               height={16}
                             />
-                            <input
-                              type="text"
-                              id="text"
-                              value={linkData.ref}
-                              onChange={(e) => {
-                                setLinkData({
-                                  ...linkData,
-                                  id: links.length + 1,
-                                  ref: e.target.value,
-                                })
-                              }}
-                              placeholder="e.g. https://www.github.com/johnappleseed"
-                              className="w-full text-dgrap paragraph bg-transparent"
-                            />
+                            <p>{selectedOption.label}</p>
                           </div>
+                          <span>▼</span>
                         </div>
-                      </section>
-                    </div>
-                  </>
+                        {showLinks && (
+                          <div className="w-full absolute mt-2 bottom-0 z-10 bg-white border rounded inset-0">
+                            {options.map((option) => (
+                              <div
+                                key={option.value}
+                                className="options flex items-center px-4 gap-2  border-b-[1px] py-2  cursor-pointer hover:bg-gray-100"
+                                onClick={() => {
+                                  setSelectedOption(option)
+                                  setLinkData({
+                                    ...linkData,
+                                    identifier: option.value,
+                                  })
+                                  setShowLinks(false)
+                                }}
+                              >
+                                <Image
+                                  src={option.imageUrl}
+                                  alt={option.label}
+                                  width={16}
+                                  height={16}
+                                />
+                                {option.label}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-4">
+                        <label
+                          htmlFor="link"
+                          className="label "
+                          style={{ textAlign: 'left' }}
+                        >
+                          Link
+                        </label>
+                        <div className="input-container bg-white border-bcolor">
+                          <Image
+                            src="/images/links-black.svg"
+                            alt="env"
+                            width={16}
+                            height={16}
+                          />
+                          <input
+                            type="text"
+                            id="link"
+                            value={linkData.ref}
+                            onChange={(e) =>
+                              setLinkData({
+                                ...linkData,
+                                id: links.length + 1,
+                                ref: e.target.value,
+                              })
+                            }
+                            placeholder="e.g. https://www.github.com/johnappleseed"
+                            className="w-full text-dgrap paragraph bg-transparent"
+                          />
+                        </div>
+                      </div>
+                    </section>
+                  </div>
                 )}
               </>
             ) : (
@@ -187,7 +197,6 @@ const Links = () => {
                     height={160}
                   />
                 </div>
-
                 <h3 className="heading text-dgrap mt-[40px]">
                   Lets get you started
                 </h3>
@@ -200,15 +209,14 @@ const Links = () => {
             )}
           </div>
         </section>
-
         <Button
-          text="save"
-          className=" bg-white flex justify-end cursor-pointer px-4 py-4"
+          text="Save"
+          className="bg-white flex justify-end cursor-pointer px-4 py-4"
           btnClassName="bg-purple text-white hover:bg-phover rounded-lg py-[11px] px-[27px] bg-opacity-25"
         />
       </form>
       {changesDone && (
-        <div className="absolute bottom-0 left-0 bg-dgrap text-lgray">
+        <div className="absolute bottom-0 left-0 bg-dgrap text-lgray p-4 rounded">
           <p className="paragraph text-center">
             Your changes have been successfully saved!
           </p>

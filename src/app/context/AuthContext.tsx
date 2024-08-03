@@ -35,67 +35,68 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // getting the user from the backend
 
-  const fetchUserProfile = async (user: any) => {
+  const fetchUserProfile = async () => {
     try {
-      const docRef = doc(firestore, 'users', user.uid)
-      const docSnap = await getDoc(docRef)
-      if (docSnap.exists()) {
-        const incomingData = docSnap.data()
-        console.log(incomingData)
+      const response = await fetch('/api/getData', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const result = await response.json()
+      if (response.ok) {
+        console.log(result)
         const { firstName, lastName, email, profileImageUrl, links, id } =
-          incomingData
+          result
         setUserDetails({
+          id,
           firstName,
           lastName,
           email,
           profileImageUrl,
           links,
-          id,
         })
-      } else {
-        console.log('No such document!')
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error)
+      console.log(error)
     }
   }
 
   useEffect(() => {
-    fetchUserProfile(userId)
-    console.log(userDetails)
-  }, [userDetails, userId])
+    fetchUserProfile()
+  }, [userId])
 
   // Function to sign in an existing user
-  const signUser = async (
-    email: string,
-    password: string,
-    setIsError: Dispatch<SetStateAction<boolean>>
-  ) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      )
-      const user = userCredential.user
-      console.log(user.uid)
-      setUserId(user.uid)
-      if (user.uid) {
-        setUserId(user.uid)
-      }
-      console.log(user)
-      await fetchUserProfile(user)
+  // const signUser = async (
+  //   email: string,
+  //   password: string,
+  //   setIsError: Dispatch<SetStateAction<boolean>>
+  // ) => {
+  //   try {
+  //     const userCredential = await signInWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     )
+  //     const user = userCredential.user
+  //     console.log(user.uid)
+  //     setUserId(user.uid)
+  //     if (user.uid) {
+  //       setUserId(user.uid)
+  //     }
+  //     console.log(user)
+  //     await fetchUserProfile(user)
 
-      router.push('/links')
+  //     router.push('/links')
 
-      // Handle successful sign-in (e.g., store user information)
-    } catch (error) {
-      console.log('Error signing in user:', error)
+  //     // Handle successful sign-in (e.g., store user information)
+  //   } catch (error) {
+  //     console.log('Error signing in user:', error)
 
-      setIsError(true)
-      // Handle error (e.g., show error message to user)
-    }
-  }
+  //     setIsError(true)
+  //     // Handle error (e.g., show error message to user)
+  //   }
+  // }
 
   const getData = async () => {
     try {

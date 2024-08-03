@@ -1,7 +1,7 @@
 'use client'
+import Link from 'next/link'
 import Button from '@/components/Button'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
@@ -53,6 +53,7 @@ const Signup = () => {
           createdAt: new Date(),
         })
         console.log('User profile created')
+        // cookies().set('auth', user.uid)
       } catch (error) {
         setIsLoading(false)
         setIsError(true)
@@ -62,18 +63,24 @@ const Signup = () => {
 
     const createUser = async (email: string, password: string) => {
       try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        const user = userCredential.user
-        if (user.uid) {
-          setUserId(user.uid)
-          setUserDetails({ ...userDetails, id: user.uid })
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        })
+        const result = await response.json()
+        if (response.ok) {
+          const { user, message, uid }: any = result
+          setUserId(uid)
+          setUserDetails({ ...userDetails, id: uid })
+          await createUserProfile(user)
+          router.push('/profile')
         }
-        await createUserProfile(user)
-        router.push('/profile')
         // Handle successful user creation (e.g., store user information)
       } catch (error) {
         console.error(error)
@@ -182,7 +189,6 @@ const Signup = () => {
           />
         </div>
       </form>
-
       <p className="paragraph text-center">
         Already have an account?{' '}
         <Link

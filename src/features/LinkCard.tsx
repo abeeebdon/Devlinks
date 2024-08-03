@@ -1,5 +1,5 @@
 'use client'
-import { doc, updateDoc, arrayRemove, getDoc } from 'firebase/firestore'
+import { doc, updateDoc, getDoc } from 'firebase/firestore'
 import { firestore } from '../config'
 
 import Image from 'next/image'
