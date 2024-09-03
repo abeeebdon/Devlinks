@@ -8,10 +8,8 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-import { auth } from '../../config'
 import { AuthContextType, Users } from '@/types/Types'
 import { doc, getDoc } from 'firebase/firestore'
-import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import { firestore } from '../../config'
 

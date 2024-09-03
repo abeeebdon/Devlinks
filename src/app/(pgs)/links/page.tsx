@@ -48,22 +48,25 @@ const Links = () => {
 
   return (
     <section className="flex gap-6 mt-6 relative justify-between">
-      <div className="hidden md:flex w-full p-[40px] h-[80vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
-        <Image
-          src="/images/phone.svg"
-          alt="phone"
-          width={300}
-          height={630}
-          className="relative"
-        />
-        <div className="absolute top-[38%]  ">
-          {userDetails?.links?.map((data, index) => (
-            <Fragment key={index}>
-              <DisplayingLink data={data} />
-            </Fragment>
-          ))}
+      <div className="hidden md:flex w-full p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
+        <div className="h-full">
+          <Image
+            src="/images/phone.svg"
+            alt="phone"
+            width={300}
+            height={400}
+            className="relative"
+          />
+          <div className="absolute top-[38%]  ">
+            {userDetails?.links?.map((data, index) => (
+              <Fragment key={index}>
+                <DisplayingLink data={data} />
+              </Fragment>
+            ))}
+          </div>
         </div>
       </div>
+
       <form
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
         onSubmit={(e) => handleSubmit(e)}

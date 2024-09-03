@@ -5,8 +5,8 @@ import { AuthProvider } from './context/AuthContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Devlinks',
-  description: 'Devlinks Task',
+  title: 'MyLinks',
+  description: 'MyLinks allow you to share important information such as email, accout  Task',
   icons: '/images/logo.svg',
 }
 
