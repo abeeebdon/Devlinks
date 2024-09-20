@@ -81,7 +81,7 @@ const Links = () => {
             <Button
               text="+ Add new Link"
               onClick={() => setCreateLink(true)}
-              className="mt-[40px] py-[11px] px-[27x] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple rounded-lg"
+              className="mt-[40px] py-[11px] px-[27x] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple outline-none rounded-lg"
             />
           </div>
           <div className=" bg-lgray text-center mt-6 p-5">
@@ -93,7 +93,7 @@ const Links = () => {
                   </div>
                 ))}
                 {createLink && (
-                  <div className="flex text-left justify-center flex-col mb-6">
+                  <div className="flex flex-col text-left justify-center  mb-6">
                     <section className="flex justify-between w-full">
                       <div className="flex items-center">
                         <Image
