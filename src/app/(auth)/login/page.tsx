@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@/app/context/AuthContext'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { LoginValidationSchema } from '@/components/validation'
 
 type Users = {
   email: string
@@ -18,25 +19,17 @@ const Login = () => {
     password: '',
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState<Users>({
+    email: '',
+    password: '',
+  })
   const [isError, setIsError] = useState(false)
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
   const { setUserDetails, userDetails, setUserId, fetchUserProfile } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault()
-
-    if (userSignin.email === '') {
-      setEmailErr(true)
-      return
-    } else if (userSignin.password.length < 8) {
-      setPasswordErr(true)
-      return
-    }
-
-    setIsLoading(true)
-
+  const submitForm = async () => {
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -68,6 +61,24 @@ const Login = () => {
       setIsLoading(false)
     }
   }
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    try {
+      await LoginValidationSchema.validate(userSignin, { abortEarly: false })
+    } catch (error) {
+      const newErrors = {}
+      const errorSS = error?.inner
+      errorSS.forEach((err: any) => {
+        newErrors[err.path] = err.message
+      })
+
+      setErrors(newErrors)
+      return
+    }
+    setIsLoading(true)
+    // console.log('done')
+    submitForm()
+  }
 
   return (
     <section className="xs:p-[40px]">
@@ -78,8 +89,7 @@ const Login = () => {
       <form
         onSubmit={handleSubmit}
         onClick={() => {
-          setPasswordErr(false)
-          setEmailErr(false)
+          setErrors({ email: '', password: '' })
         }}
       >
         <div className="mt-[40px]">
@@ -103,7 +113,7 @@ const Login = () => {
               }
               className="text-dgrap paragraph"
             />
-            {emailErr && <p className="err label">Can’t be empty</p>}
+            {errors.email && <p className="err label">{errors.email}</p>}
           </div>
         </div>
         <div className="my-6">
@@ -112,7 +122,9 @@ const Login = () => {
           </label>
           <div
             className={`
-              input-container ${passwordErr ? 'border-red' : 'border-bcolor'}
+              input-container ${
+                errors.password ? 'border-red' : 'border-bcolor'
+              }
             `}
           >
             <Image src="/images/lock.svg" alt="lock" width={16} height={16} />
@@ -126,6 +138,8 @@ const Login = () => {
               }
               className="text-dgrap paragraph"
             />
+            {errors.password && <p className="err label">{errors.password}</p>}
+
             {passwordErr && <p className="err label">Please check again</p>}
           </div>
         </div>
