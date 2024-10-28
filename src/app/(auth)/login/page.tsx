@@ -66,13 +66,13 @@ const Login = () => {
     try {
       await LoginValidationSchema.validate(userSignin, { abortEarly: false })
     } catch (error) {
-      const newErrors = {}
-      const errorSS = error?.inner
-      errorSS.forEach((err: any) => {
-        newErrors[err.path] = err.message
-      })
+      // const newErrors = {}
+      // const errorSS = error?.inner
+      // errorSS.forEach((err: any) => {
+      //   newErrors[err.path] = err.message
+      // })
 
-      setErrors(newErrors)
+      // setErrors(newErrors)
       return
     }
     setIsLoading(true)

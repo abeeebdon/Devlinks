@@ -10,7 +10,7 @@ const Page = () => {
   const { userDetails, userId } = useAuth()
   const router = useRouter()
   const [linked, setLinked] = useState(userDetails.links)
-
+  const user = '/images/Ben.svg'
   return (
     <section className="relative bg-white xs:bg-purple h-[357px] p-4 xs:p-6 rounded-b-[32px]">
       <header className="flex justify-between items-center  p-4 bg-white rounded-lg">
@@ -33,7 +33,7 @@ const Page = () => {
         <div className="text-center heading flex flex-col items-center">
           <div className="border-[5px] rounded-full w-[108px] h-[108px] border-purple p-1 flex justify-center items-center">
             <Image
-              src={userDetails.profileImageUrl}
+              src={userDetails.profileImageUrl || user}
               width={104}
               height={104}
               alt="profile"

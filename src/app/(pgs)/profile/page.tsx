@@ -18,6 +18,7 @@ const Profile = () => {
     if (userDetails?.profileImageUrl) {
       setImageUrl(userDetails?.profileImageUrl)
     }
+    console.log(userId)
   }, [userDetails])
 
   // handles the addition of images
@@ -31,7 +32,8 @@ const Profile = () => {
       console.log(userId)
       // Upload the file to Firebase Storage
       const saveImageUrlToFirestore = async (url: string) => {
-        const userDocRef = doc(firestore, 'users', userId) // Replace 'user-id' with the actual user ID
+        console.log(url)
+        const userDocRef = doc(firestore, 'users', userDetails.id) // Replace 'user-id' with the actual user ID
         try {
           await setDoc(userDocRef, { profileImageUrl: url }, { merge: true })
           console.log('Image URL saved to Firestore')
