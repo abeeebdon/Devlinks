@@ -32,6 +32,6 @@ input[type='file'] {
     @apply border border-bcolor rounded-lg flex items-center gap-2 p-3 focus-within:shadow-xl focus-within:border-purple;
   }
   .err {
-    @apply absolute top-0 right-0 text-red xs:static;
+    @apply text-red xs:static;
   }
 }

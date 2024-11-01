@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className="bg-lgray p-4 xs:p-6">
+    <main className="bg-lgray p-2 xs:p-6">
       <Header />
       {children}
     </main>

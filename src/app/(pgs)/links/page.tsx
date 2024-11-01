@@ -25,30 +25,27 @@ const Links = () => {
   })
 
   const handleSubmit = async (e: any) => {
+    fetch('/api/createlinks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        links: links,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error('Error:', error))
     e.preventDefault()
     const updatedLinks = [...links, linkData]
     setLinks(updatedLinks)
     setUserDetails({ ...userDetails, links: updatedLinks })
-
-    const userDocRef = doc(firestore, 'users', userId)
-    try {
-      await setDoc(
-        userDocRef,
-        { ...userDetails, links: updatedLinks },
-        { merge: true }
-      )
-      setChangesDone(true)
-      setTimeout(() => setChangesDone(false), 3000) // Hide the message after 3 seconds
-    } catch (error) {
-      console.error('Error saving data to Firestore:', error)
-    }
   }
-
-  console.log(userDetails.links)
 
   return (
     <section className="flex gap-6 mt-6 relative justify-between">
-      <div className="hidden md:flex w-full p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
+      <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
         <div className="h-full">
           <Image
             src="/images/phone.svg"
@@ -71,9 +68,9 @@ const Links = () => {
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
         onSubmit={(e) => handleSubmit(e)}
       >
-        <section className="max-h-[834px] bg-white h-[70vh] overflow-auto scrollBar  p-[40px] pb-12 rounded-lg">
-          <div className="">
-            <h2 className="heading text-dgrap ">Customize your links</h2>
+        <section className="max-h-[834px] bg-white h-[80vh] overflow-auto scrollBar  p-[40px] pb-12 rounded-lg">
+          <div className="text-center">
+            <h2 className="heading text-dgrap  ">Customize your links</h2>
             <p className="paragraph">
               Add/edit/remove links below and then share all your profiles with
               the world!
@@ -215,7 +212,6 @@ const Links = () => {
         <Button
           text="Save"
           className="bg-white flex justify-end cursor-pointer px-4 py-4"
-          btnClassName="bg-purple text-white hover:bg-phover rounded-lg py-[11px] px-[27px] bg-opacity-25"
         />
       </form>
       {changesDone && (

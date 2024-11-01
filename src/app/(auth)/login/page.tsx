@@ -24,7 +24,6 @@ const Login = () => {
     password: '',
   })
   const [isError, setIsError] = useState(false)
-  const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
   const { setUserDetails, userDetails, setUserId, fetchUserProfile } = useAuth()
   const router = useRouter()
@@ -65,15 +64,30 @@ const Login = () => {
     e.preventDefault()
     try {
       await LoginValidationSchema.validate(userSignin, { abortEarly: false })
-    } catch (error) {
-      // const newErrors = {}
-      // const errorSS = error?.inner
+    } catch (error: any) {
+      // const newErrors: { [key: string]: string } = {} // Define the type of newErrors if using TypeScript
+      // const errorSS = error?.inner || []
+
       // errorSS.forEach((err: any) => {
       //   newErrors[err.path] = err.message
       // })
 
+      // // Set the errors once, after the loop
       // setErrors(newErrors)
-      return
+
+      // // Logging the updated errors
+      // setErrors(error.errors)
+      // // console.log(newErrors)
+      // const err = error.errors.map((err: string) => {
+      //   console.log(error.errors)
+      // })
+      const errorObject = error.inner.reduce((acc: any, err: any) => {
+        acc[err.path] = err.message // Accumulate errors by path (field name)
+        return acc
+      }, {})
+      console.log(errorObject) // For debugging
+      setErrors(errorObject)
+      return errors // Return the error object
     }
     setIsLoading(true)
     // console.log('done')
@@ -96,7 +110,11 @@ const Login = () => {
           <label htmlFor="email" className="label">
             Email address
           </label>
-          <div className="input-container">
+          <div
+            className={`
+              input-container ${errors.email ? 'border-red' : 'border-bcolor'}
+            `}
+          >
             <Image
               src="/images/envelope.svg"
               alt="env"
@@ -113,8 +131,8 @@ const Login = () => {
               }
               className="text-dgrap paragraph"
             />
-            {errors.email && <p className="err label">{errors.email}</p>}
           </div>
+          {errors.email && <p className="err ">{errors.email}</p>}
         </div>
         <div className="my-6">
           <label htmlFor="createPass" className="label">
@@ -138,10 +156,9 @@ const Login = () => {
               }
               className="text-dgrap paragraph"
             />
-            {errors.password && <p className="err label">{errors.password}</p>}
-
-            {passwordErr && <p className="err label">Please check again</p>}
           </div>
+          {passwordErr && <p className="err label">Please check again</p>}
+          {errors.password && <p className="err label">{errors.password}</p>}
         </div>
         <Button
           isLoading={isLoading}

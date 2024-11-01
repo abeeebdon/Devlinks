@@ -6,10 +6,11 @@ const Headers = () => {
   const pathname = usePathname()
 
   return (
-    <header className="flex justify-between items-center  p-4 bg-white">
-      <div className="flex gap-2">
+    <header className="flex justify-between items-center  sm:p-4 bg-white">
+      <div className="flex gap-2 items-center">
         <Image src="/images/logo.svg" width={32} height={32} alt="Logo" />
-        <Image src="/images/devlinks.svg" width={108} height={21} alt="Logo" />
+        {/* <Image src="/images/devlinks.svg" width={108} height={21} alt="Logo" /> */}
+        <h2>Devlinks</h2>
       </div>
       <div className="flex xs:gap-2 items-center">
         <Link

@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     profileImageUrl: '',
     links: [],
   })
-  const router = useRouter()
 
   // getting the user from the backend
 

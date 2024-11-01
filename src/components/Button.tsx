@@ -4,13 +4,12 @@ import { CgSpinner } from 'react-icons/cg'
 
 type Props = {
   className: string
-  btnClassName?: string
   text: string
   onClick?: Dispatch<SetStateAction<boolean>>
   isLoading?: boolean
 }
 const Button = (props: Props) => {
-  const { className, text, onClick, isLoading, btnClassName } = props
+  const { className, text, onClick, isLoading } = props
   const handleClick = () => {
     if (onClick) {
       onClick(true) // Sets the state to true
@@ -18,13 +17,17 @@ const Button = (props: Props) => {
   }
 
   return (
-    <div className={className} onClick={handleClick}>
+    <>
       {isLoading ? (
-        <CgSpinner className="mx-auto w-[3rem] text-[3rem] text-white animate-spin" />
+        <div className={className}>
+          <CgSpinner className="mx-auto w-[3rem] text-[3rem] text-white animate-spin" />
+        </div>
       ) : (
-        <button className={btnClassName}>{text}</button>
+        <button onClick={handleClick} className={className}>
+          {text}
+        </button>
       )}
-    </div>
+    </>
   )
 }
 
