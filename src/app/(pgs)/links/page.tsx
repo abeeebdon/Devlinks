@@ -2,50 +2,67 @@
 import { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Button from '@/components/Button'
-import { firestore } from '../../../config'
-import { doc, setDoc } from 'firebase/firestore'
 import { useAuth } from '@/app/context/AuthContext'
-import LinkCard from '../../../features/LinkCard'
-import { Link } from '@/types/Types'
-import { options } from '@/components/data'
 import DisplayingLink from '@/features/DisplayingLink'
+import CreateLinkCard from '@/components/LinkCard'
+import { Link } from '@/types/Types'
 
 const Links = () => {
   const { userId, userDetails, setUserDetails } = useAuth()
-
-  const [createLink, setCreateLink] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState(options[0])
-  const [showLinks, setShowLinks] = useState(false)
   const [links, setLinks] = useState<Link[]>(userDetails.links)
-  const [changesDone, setChangesDone] = useState<boolean>(false)
-  const [linkData, setLinkData] = useState<Link>({
-    id: 0,
-    identifier: '',
-    ref: '',
-  })
+  const [changesDone, setChangesDone] = useState(false)
 
+  useEffect(() => {
+    console.log(userDetails.links?.length)
+    if (userDetails.links) {
+      setLinks(userDetails.links)
+    }
+    console.log(links.length)
+  }, [userDetails])
+  // Handler to update a specific link in the array
+
+  const updateLink = (index: number, updatedLink: Link) => {
+    const newLinks = [...links]
+    newLinks[index] = updatedLink
+    setLinks(newLinks)
+  }
+
+  // Handler to add a new link
+  const addLink = () => {
+    setLinks([...links, { name: '', value: '' }])
+  }
+
+  // Handler to remove a link by index
+  const removeLink = (index: number) => {
+    const newLinks = links.filter((_, i) => i !== index)
+    setLinks(newLinks)
+  }
+
+  // Handle form submission
   const handleSubmit = async (e: any) => {
-    fetch('/api/createlinks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        links: links,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error('Error:', error))
     e.preventDefault()
-    const updatedLinks = [...links, linkData]
-    setLinks(updatedLinks)
-    setUserDetails({ ...userDetails, links: updatedLinks })
+    try {
+      console.log('Submitting links:', links)
+      // Make an API request to save links
+      const response = await fetch('/api/createLinks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ links }),
+      })
+      const data = await response.json()
+      setChangesDone(true)
+      setTimeout(() => setChangesDone(false), 3000) // Hide the message after 3 seconds
+      console.log(data)
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   return (
     <section className="flex gap-6 mt-6 relative justify-between">
-      <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
+      <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white justify-center items-center basis-[40%]">
         <div className="h-full">
           <Image
             src="/images/phone.svg"
@@ -54,139 +71,48 @@ const Links = () => {
             height={400}
             className="relative"
           />
-          <div className="absolute top-[38%]  ">
+          {/* <div className="absolute top-[38%]">
             {userDetails?.links?.map((data, index) => (
               <Fragment key={index}>
                 <DisplayingLink data={data} />
               </Fragment>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 
       <form
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
       >
-        <section className="max-h-[834px] bg-white h-[80vh] overflow-auto scrollBar  p-[40px] pb-12 rounded-lg">
+        <section className="max-h-[834px] bg-white h-[80vh] overflow-auto scrollBar p-[40px] pb-12 rounded-lg">
           <div className="text-center">
-            <h2 className="heading text-dgrap  ">Customize your links</h2>
+            <h2 className="heading text-dgrap">Customize your links</h2>
             <p className="paragraph">
               Add/edit/remove links below and then share all your profiles with
               the world!
             </p>
             <Button
               text="+ Add new Link"
-              onClick={() => setCreateLink(true)}
-              className="mt-[40px] py-[11px] px-[27x] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple outline-none rounded-lg"
+              onClick={addLink}
+              className="mt-[40px] py-[11px] px-[27px] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple outline-none rounded-lg"
             />
           </div>
-          <div className=" bg-lgray text-center mt-6 p-5">
-            {links?.length > 0 ? (
-              <>
-                {links.map((link, index) => (
-                  <div key={index}>
-                    <LinkCard link={link} id={index + 1} />
-                  </div>
-                ))}
-                {createLink && (
-                  <div className="flex flex-col text-left justify-center  mb-6">
-                    <section className="flex justify-between w-full">
-                      <div className="flex items-center">
-                        <Image
-                          src="/images/TwoBar.svg"
-                          alt="AddPhone"
-                          width={20}
-                          height={20}
-                        />
-                        <h4 className="paragraph font-bold">
-                          Link #{links.length + 1}
-                        </h4>
-                      </div>
-                      <p className="paragraph">Remove</p>
-                    </section>
-                    <section>
-                      <div className=" relative text-left">
-                        <label htmlFor="email" className="label text-left">
-                          Platform
-                        </label>
-                        <div
-                          onClick={() => setShowLinks(!showLinks)}
-                          className="focus-within:shadow-xl bg-white input-container border-bcolor flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={selectedOption.imageUrl}
-                              alt={selectedOption.label}
-                              width={16}
-                              height={16}
-                            />
-                            <p>{selectedOption.label}</p>
-                          </div>
-                          <span>▼</span>
-                        </div>
-                        {showLinks && (
-                          <div className="w-full absolute mt-2 bottom-0 z-10 bg-white border rounded inset-0">
-                            {options.map((option) => (
-                              <div
-                                key={option.value}
-                                className="options flex items-center px-4 gap-2  border-b-[1px] py-2  cursor-pointer hover:bg-gray-100"
-                                onClick={() => {
-                                  setSelectedOption(option)
-                                  setLinkData({
-                                    ...linkData,
-                                    identifier: option.value,
-                                  })
-                                  setShowLinks(false)
-                                }}
-                              >
-                                <Image
-                                  src={option.imageUrl}
-                                  alt={option.label}
-                                  width={16}
-                                  height={16}
-                                />
-                                {option.label}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mt-4">
-                        <label
-                          htmlFor="link"
-                          className="label "
-                          style={{ textAlign: 'left' }}
-                        >
-                          Link
-                        </label>
-                        <div className="input-container bg-white border-bcolor">
-                          <Image
-                            src="/images/links-black.svg"
-                            alt="env"
-                            width={16}
-                            height={16}
-                          />
-                          <input
-                            type="text"
-                            id="link"
-                            value={linkData.ref}
-                            onChange={(e) =>
-                              setLinkData({
-                                ...linkData,
-                                id: links.length + 1,
-                                ref: e.target.value,
-                              })
-                            }
-                            placeholder="e.g. https://www.github.com/johnappleseed"
-                            className="w-full text-dgrap paragraph bg-transparent"
-                          />
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                )}
-              </>
+
+          <div className="bg-lgray text-center mt-6 p-5">
+            {links.length > 0 ? (
+              links.map((link, index) => (
+                <CreateLinkCard
+                  key={index}
+                  index={index}
+                  name={link.name}
+                  value={link.value}
+                  onUpdate={(updatedLink: Link) =>
+                    updateLink(index, updatedLink)
+                  }
+                  onRemove={() => removeLink(index)}
+                />
+              ))
             ) : (
               <Fragment>
                 <div className="text-center w-full flex justify-center">
@@ -209,18 +135,13 @@ const Links = () => {
             )}
           </div>
         </section>
+
         <Button
           text="Save"
           className="bg-white flex justify-end cursor-pointer px-4 py-4"
         />
       </form>
-      {changesDone && (
-        <div className="absolute bottom-0 left-0 bg-dgrap text-lgray p-4 rounded">
-          <p className="paragraph text-center">
-            Your changes have been successfully saved!
-          </p>
-        </div>
-      )}
+      {changesDone && <p className="fixed bottom-0 left-0">changes done</p>}
     </section>
   )
 }

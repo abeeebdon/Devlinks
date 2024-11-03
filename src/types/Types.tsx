@@ -15,4 +15,4 @@ export type Users = {
   profileImageUrl: string
   links: Link[]
 }
-export type Link = { id: number; identifier: string; ref: string }
+export type Link = { id?: number; value: string; name: string }
