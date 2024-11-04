@@ -29,7 +29,10 @@ const Links = () => {
 
   // Handler to add a new link
   const addLink = () => {
-    setLinks([...links, { name: '', value: '' }])
+    console.log(links)
+    if (links?.length > 0) {
+      setLinks([...links, { name: '', value: '' }])
+    } else setLinks([{ name: '', value: '' }])
   }
 
   // Handler to remove a link by index
@@ -92,15 +95,17 @@ const Links = () => {
               Add/edit/remove links below and then share all your profiles with
               the world!
             </p>
-            <Button
-              text="+ Add new Link"
+            <button
               onClick={addLink}
+              type="button"
               className="mt-[40px] py-[11px] px-[27px] hover:bg-lpurple w-full text-center paragraph font-[600] text-purple border border-purple outline-none rounded-lg"
-            />
+            >
+              + Add new Link
+            </button>
           </div>
 
           <div className="bg-lgray text-center mt-6 p-5">
-            {links.length > 0 ? (
+            {links?.length > 0 ? (
               links.map((link, index) => (
                 <CreateLinkCard
                   key={index}
