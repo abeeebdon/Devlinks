@@ -1,8 +1,16 @@
 import { Link } from '@/types/Types'
-import React from 'react'
+import Image from 'next/image'
+import React, { ReactNode } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import Select, { GroupBase, SingleValue } from 'react-select'
-
+import { FaDev, FaLinkedin } from 'react-icons/fa'
+import {
+  FaGithub,
+  FaSquareXTwitter,
+  FaXTwitter,
+  FaYoutube,
+} from 'react-icons/fa6'
+import { SiFrontendmentor } from 'react-icons/si'
+import Select, { components, GroupBase, SingleValue } from 'react-select'
 interface Props {
   index: number
   name: string
@@ -14,7 +22,25 @@ interface Props {
 interface OptionType {
   value: string
   label: string
+  imageUrl: ReactNode
 }
+const CustomSingleValue = (props: any) => (
+  <components.SingleValue {...props}>
+    <div className="flex items-center gap-4">
+      {props.data.imageUrl}
+      {props.data.label}
+    </div>
+  </components.SingleValue>
+)
+
+const CustomOption = (props: any) => (
+  <components.Option {...props}>
+    <div className="flex items-center gap-4 bg-red-500">
+      {props.data.imageUrl}
+      {props.data.label}
+    </div>
+  </components.Option>
+)
 
 const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
   const { control } = useForm({
@@ -22,9 +48,36 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
   })
 
   const options: OptionType[] = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
+    {
+      value: 'frontendMentor',
+      label: 'Frontend Mentor',
+      imageUrl: <SiFrontendmentor />,
+    },
+    {
+      value: 'twitter',
+      label: 'Twitter',
+      imageUrl: <FaSquareXTwitter />,
+    },
+    {
+      value: 'github',
+      label: 'Github',
+      imageUrl: <FaGithub />,
+    },
+    {
+      value: 'linkedin',
+      label: 'Linkedin',
+      imageUrl: <FaLinkedin />,
+    },
+    {
+      value: 'youtube',
+      label: 'Youtube',
+      imageUrl: <FaYoutube />,
+    },
+    {
+      value: 'devTo',
+      label: 'DevTo',
+      imageUrl: <FaDev />,
+    },
   ]
 
   const handleChange = (updatedLink: Link) => {
@@ -49,16 +102,20 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
             name="name"
             control={control}
             render={({ field }) => (
-              <Select<OptionType, false, GroupBase<OptionType>>
+              <Select<OptionType, false>
                 {...field}
                 options={options}
+                components={{
+                  SingleValue: CustomSingleValue,
+                  Option: CustomOption,
+                }}
                 placeholder="Select a platform"
-                onChange={(option: SingleValue<OptionType>) => {
+                onChange={(option) => {
                   const newName = option?.value || ''
                   field.onChange(newName)
-                  handleChange({ name: newName, value: value }) // Update the link object
+                  handleChange({ name: newName, value: value })
                 }}
-                value={options.find((opt) => opt.value === field.value)} // Set the selected value
+                value={options.find((opt) => opt.value === field.value)}
               />
             )}
           />
