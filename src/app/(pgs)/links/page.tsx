@@ -6,19 +6,35 @@ import { useAuth } from '@/app/context/AuthContext'
 import DisplayingLink from '@/features/DisplayingLink'
 import CreateLinkCard from '@/components/LinkCard'
 import { Link } from '@/types/Types'
+import { useRouter } from 'next/navigation'
 
 const Links = () => {
-  const { userId, userDetails, setUserDetails } = useAuth()
+  const router = useRouter()
+  const {
+    userId,
+    userDetails,
+    setUserDetails,
+    fetchUserProfile,
+    errMsg,
+    error,
+  } = useAuth()
   const [links, setLinks] = useState<Link[]>(userDetails.links)
   const [changesDone, setChangesDone] = useState(false)
-
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     console.log(userDetails.links?.length)
     if (userDetails.links) {
       setLinks(userDetails.links)
     }
+    if (links.length < 1 && !error) {
+      setLoading(true)
+    }
+    if (error) {
+      setLoading(false)
+    }
     console.log(links.length)
   }, [userDetails])
+  console.log(loading)
   // Handler to update a specific link in the array
 
   const updateLink = (index: number, updatedLink: Link) => {
@@ -56,8 +72,10 @@ const Links = () => {
       })
       const data = await response.json()
       setChangesDone(true)
+      router.push('/preview')
       setTimeout(() => setChangesDone(false), 3000) // Hide the message after 3 seconds
       console.log(data)
+      fetchUserProfile()
     } catch (error) {
       console.error('Error:', error)
     }
@@ -118,6 +136,10 @@ const Links = () => {
                   onRemove={() => removeLink(index)}
                 />
               ))
+            ) : loading ? (
+              <p>Loading</p>
+            ) : error ? (
+              <p>There is an error </p>
             ) : (
               <Fragment>
                 <div className="text-center w-full flex justify-center">

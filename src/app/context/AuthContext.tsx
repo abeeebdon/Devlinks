@@ -5,12 +5,9 @@ import {
   ReactNode,
   useState,
   useEffect,
-  Dispatch,
-  SetStateAction,
 } from 'react'
 import { AuthContextType, Users } from '@/types/Types'
 import { doc, getDoc } from 'firebase/firestore'
-import { useRouter } from 'next/navigation'
 import { firestore } from '../../config'
 
 // Create the AuthContext with the default value
@@ -20,7 +17,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to create a new user
+
   const [userId, setUserId] = useState<string>('')
+  const [errMsg, setErrMsg] = useState<string>('')
+  const [error, setError] = useState(false)
   const [userDetails, setUserDetails] = useState<Users>({
     id: '',
     firstName: '',
@@ -55,6 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         })
       }
     } catch (error) {
+      if (error) {
+        setErrMsg('Failed to fetch user data')
+        setError(true)
+      }
       console.log(error)
     }
   }
@@ -107,6 +111,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error('Error getting document:', error)
+      if (error) {
+        setErrMsg('Failed to fetch user data')
+        setError(true)
+      }
     }
   }
   // const getTasks = async () => {
@@ -150,7 +158,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         userDetails,
         setUserDetails,
         fetchUserProfile,
-
+        error,
+        errMsg,
         getData,
       }}
     >

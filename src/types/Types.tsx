@@ -1,8 +1,10 @@
 import { SetStateAction, Dispatch } from 'react'
 export type AuthContextType = {
+  errMsg: string
+  error: boolean
   userId: string
   setUserId: Dispatch<SetStateAction<string>>
-  fetchUserProfile: (user: any) => Promise<void>
+  fetchUserProfile: () => Promise<void>
   getData: () => Promise<void>
   userDetails: Users
   setUserDetails: Dispatch<SetStateAction<Users>>
