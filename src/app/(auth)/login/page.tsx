@@ -47,15 +47,13 @@ const Login = () => {
         const user = result.user
         setUserId(user.uid)
         setUserDetails({ ...userDetails, id: user.uid })
-        await fetchUserProfile(user)
+        await fetchUserProfile()
         router.push('/links')
       } else {
         setIsError(true)
-        console.error('Login failed:', result.message)
       }
     } catch (error) {
       setIsError(true)
-      console.error('Error logging in:', error)
     } finally {
       setIsLoading(false)
     }
@@ -85,7 +83,6 @@ const Login = () => {
         acc[err.path] = err.message // Accumulate errors by path (field name)
         return acc
       }, {})
-      console.log(errorObject) // For debugging
       setErrors(errorObject)
       return errors // Return the error object
     }

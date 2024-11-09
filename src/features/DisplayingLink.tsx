@@ -22,7 +22,6 @@ const DisplayingLink = ({ id, value, name }: Link) => {
   const content = displayLinks.find(
     (data) => data.identifier.toLowerCase() === name?.toLowerCase()
   )
-  console.log(content)
   const handleCopy = () => {
     navigator.clipboard.writeText(value)
     setAlert(true)

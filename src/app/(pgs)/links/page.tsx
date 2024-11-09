@@ -11,12 +11,7 @@ import SideLink from '@/components/SideLink'
 
 const Links = () => {
   const router = useRouter()
-  const {
-    userDetails,
-    fetchUserProfile,
-    errMsg,
-    error,
-  } = useAuth()
+  const { userDetails, fetchUserProfile, errMsg, error } = useAuth()
   const [links, setLinks] = useState<Link[]>(userDetails.links)
   const [changesDone, setChangesDone] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -31,9 +26,7 @@ const Links = () => {
     if (error) {
       setLoading(false)
     }
-    console.log(links.length)
   }, [userDetails])
-  console.log(loading)
   // Handler to update a specific link in the array
 
   const updateLink = (index: number, updatedLink: Link) => {
@@ -44,7 +37,6 @@ const Links = () => {
 
   // Handler to add a new link
   const addLink = () => {
-    console.log(links)
     if (links?.length > 0) {
       setLinks([...links, { name: '', value: '' }])
     } else setLinks([{ name: '', value: '' }])
@@ -60,7 +52,6 @@ const Links = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      console.log('Submitting links:', links)
       // Make an API request to save links
       const response = await fetch('/api/createLinks', {
         method: 'POST',
@@ -73,7 +64,6 @@ const Links = () => {
       setChangesDone(true)
       router.push('/preview')
       setTimeout(() => setChangesDone(false), 3000) // Hide the message after 3 seconds
-      console.log(data)
       fetchUserProfile()
     } catch (error) {
       console.error('Error:', error)
