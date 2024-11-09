@@ -3,11 +3,9 @@ import { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Button from '@/components/Button'
 import { useAuth } from '@/app/context/AuthContext'
-import DisplayingLink from '@/features/DisplayingLink'
 import CreateLinkCard from '@/components/LinkCard'
 import { Link } from '@/types/Types'
 import { useRouter } from 'next/navigation'
-import SideLink from '@/components/SideLink'
 
 const Links = () => {
   const router = useRouter()
@@ -26,7 +24,10 @@ const Links = () => {
     if (error) {
       setLoading(false)
     }
-  }, [userDetails])
+    if (!error && userDetails?.links.length < 1) {
+      setLoading(false)
+    }
+  }, [])
   // Handler to update a specific link in the array
 
   const updateLink = (index: number, updatedLink: Link) => {
