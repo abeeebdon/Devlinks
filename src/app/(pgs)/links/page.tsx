@@ -7,13 +7,12 @@ import DisplayingLink from '@/features/DisplayingLink'
 import CreateLinkCard from '@/components/LinkCard'
 import { Link } from '@/types/Types'
 import { useRouter } from 'next/navigation'
+import SideLink from '@/components/SideLink'
 
 const Links = () => {
   const router = useRouter()
   const {
-    userId,
     userDetails,
-    setUserDetails,
     fetchUserProfile,
     errMsg,
     error,
@@ -82,26 +81,7 @@ const Links = () => {
   }
 
   return (
-    <section className="flex gap-6 mt-6 relative justify-between">
-      <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white justify-center items-center basis-[40%]">
-        <div className="h-full">
-          <Image
-            src="/images/phone.svg"
-            alt="phone"
-            width={300}
-            height={400}
-            className="relative"
-          />
-          {/* <div className="absolute top-[38%]">
-            {userDetails?.links?.map((data, index) => (
-              <Fragment key={index}>
-                <DisplayingLink data={data} />
-              </Fragment>
-            ))}
-          </div> */}
-        </div>
-      </div>
-
+    <>
       <form
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
         onSubmit={handleSubmit}
@@ -169,7 +149,7 @@ const Links = () => {
         />
       </form>
       {changesDone && <p className="fixed bottom-0 left-0">changes done</p>}
-    </section>
+    </>
   )
 }
 

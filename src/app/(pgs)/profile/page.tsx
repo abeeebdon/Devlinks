@@ -5,6 +5,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { useAuth } from '@/app/context/AuthContext'
 import { useEffect, useState } from 'react'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import Success from '@/components/Success'
 
 const Profile = () => {
   // datas coming from useContext
@@ -68,10 +69,7 @@ const Profile = () => {
     }
   }
   return (
-    <section className="relative flex mt-8 gap-6 justify-between ">
-      <div className="hidden md:flex w-full p-[40px] h-[834px] rounded-lg max-w-[560px] bg-white  justify-center items-center basis-[40%] ">
-        <Image src="/images/phone.svg" alt="phone" width={300} height={630} />
-      </div>
+    <>
       <div className="md:basis-[60%] bg-white w-full  p-[40px] pb-0 rounded-lg">
         <h2 className="heading text-dgrap ">Profile Details</h2>
         <p className="paragraph">
@@ -158,16 +156,13 @@ const Profile = () => {
         </form>
       </div>
       {done && (
-        <div className="absolute bottom-0 flex justify-center  left-0 right-0 ">
-          <div className="flex gap-2 p-4 px-6 rounded-lg items-center bg-dgrap ">
-            <Image src="/images/floppy.svg" width={20} height={20} alt="" />
-            <p className="paragraph   text-lgray">
-              Your changes have been successfully saved!
-            </p>
-          </div>
-        </div>
+        <Success
+          message=" Your changes have been successfully saved!"
+          icon
+          className="bottom-0"
+        />
       )}
-    </section>
+    </>
   )
 }
 

@@ -5,9 +5,10 @@ import Link from 'next/link'
 import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import SideLink from '@/components/SideLink'
 
 const Page = () => {
-  const { userDetails, userId } = useAuth()
+  const { userDetails } = useAuth()
   const router = useRouter()
   const [linked, setLinked] = useState(userDetails.links)
   const user = '/images/Ben.svg'
@@ -44,16 +45,8 @@ const Page = () => {
           <h2>{`${userDetails.firstName}  ${userDetails.lastName}`}</h2>
           <p className="paragraph">{userDetails.email}</p>
         </div>
-        <div>
-          {linked.length > 0 ? (
-            <>
-              {linked.map((link, index) => {
-                return <p key={index}>{link.identifier}</p>
-              })}
-            </>
-          ) : (
-            <p>You do not have any link</p>
-          )}
+        <div className="relative mt-5">
+          <SideLink links={userDetails?.links} height="160px" />
         </div>
       </section>
     </section>
