@@ -8,7 +8,7 @@ type AuthLayoutProps = {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
-    <section className="min-h-screen flex items-center justify-center ">
+    <section className="min-h-screen flex items-center justify-center bg-lgray">
       <article className="w-full max-w-[476px] p-[32px] xs:p-0">
         <header className="w-full flex items-center justify-start xs:justify-center mb-[51px] gap-4 text-center">
           <Image src="/images/logo.svg" alt="logo" width={40} height={40} />
@@ -19,7 +19,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
             height={26.5}
           />
         </header>
-        <main className="">{children}</main>
+        <main>{children}</main>
       </article>
     </section>
   )

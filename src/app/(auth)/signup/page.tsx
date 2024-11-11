@@ -6,8 +6,7 @@ import { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
 
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { firestore, auth } from '../../../config'
+import { firestore } from '../../../config'
 
 import { doc, setDoc } from 'firebase/firestore'
 
@@ -36,12 +35,13 @@ const Signup = () => {
       setEmailErr(true)
     } else if (userSignup.password.length < 8) {
       setPasswordErr(true)
+      return
     } else if (userSignup.password !== userSignup.cPassword) {
       setPasswordErr(true)
+      return
     }
+    setIsLoading(true)
     const createUserProfile = async (user: any) => {
-      setIsLoading(true)
-
       try {
         await setDoc(doc(firestore, 'users', user.uid), {
           id: user.uid,
@@ -80,10 +80,15 @@ const Signup = () => {
           setUserDetails({ ...userDetails, id: uid })
           await createUserProfile(user)
           router.push('/profile')
+        } else {
+          setIsLoading(false)
+          throw new Error()
         }
+        console.log(response)
         // Handle successful user creation (e.g., store user information)
       } catch (error) {
-        console.error(error)
+        setIsLoading(false)
+        console.log(error)
         // Handle error (e.g., show error message to user)
       }
     }
@@ -126,7 +131,7 @@ const Signup = () => {
               onChange={(e) =>
                 setUserSignup({ ...userSignup, email: e.target.value })
               }
-              className="text-dgrap paragraph"
+              className="text-dgrap paragraph bg-transparent w-full"
             />
             {emailErr && <p className="err label ">Can’t be empty</p>}
           </div>
@@ -149,10 +154,17 @@ const Signup = () => {
               onChange={(e) =>
                 setUserSignup({ ...userSignup, password: e.target.value })
               }
-              className="text-dgrap paragraph"
+              className="text-dgrap paragraph bg-transparent w-full"
             />
-            {passwordErr && <p className="err label">Please check again</p>}
           </div>
+          <p className="label text-gray">
+            Password must contain at least 8 characters
+          </p>
+          {passwordErr && (
+            <p className="err label">
+              Passwords do not match, Please check again
+            </p>
+          )}
         </div>
         <div className="relative">
           <label htmlFor="confirmPass" className="label">
@@ -173,13 +185,16 @@ const Signup = () => {
               onChange={(e) =>
                 setUserSignup({ ...userSignup, cPassword: e.target.value })
               }
+              className="text-dgrap paragraph bg-lgray w-full"
             />
-            {passwordErr && <p className="err label">Please check again</p>}
           </div>
+          {passwordErr && (
+            <p className="err label">
+              Passwords do not match, Please check again
+            </p>
+          )}
         </div>
-        <p className="label text-gray">
-          Password must contain at least 8 characters
-        </p>
+
         {isError && <p className="text-red">There is an error</p>}
         <div>
           <Button

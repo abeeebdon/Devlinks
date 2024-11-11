@@ -54,6 +54,7 @@ const Login = () => {
       }
     } catch (error) {
       setIsError(true)
+      console.log(error)
     } finally {
       setIsLoading(false)
     }
@@ -126,7 +127,7 @@ const Login = () => {
               onChange={(e) =>
                 setUserSignin({ ...userSignin, email: e.target.value })
               }
-              className="text-dgrap paragraph"
+              className="text-dgrap paragraph bg-transparent w-full"
             />
           </div>
           {errors.email && <p className="err ">{errors.email}</p>}
@@ -151,11 +152,12 @@ const Login = () => {
               onChange={(e) =>
                 setUserSignin({ ...userSignin, password: e.target.value })
               }
-              className="text-dgrap paragraph"
+              className="text-dgrap paragraph bg-transparent w-full"
             />
           </div>
           {passwordErr && <p className="err label">Please check again</p>}
           {errors.password && <p className="err label">{errors.password}</p>}
+          {isError && <p className="mt-4 err">There is an error</p>}
         </div>
         <Button
           isLoading={isLoading}
