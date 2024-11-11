@@ -27,6 +27,7 @@ const Signup = () => {
   const [emailErr, setEmailErr] = useState<boolean>(false)
   const [passwordErr, setPasswordErr] = useState<boolean>(false)
 
+  // {use States}
   const router = useRouter()
   const { userDetails, setUserDetails, setUserId } = useAuth()
   const handleSubmit = (e: any) => {
