@@ -10,12 +10,12 @@ const Headers = () => {
       <div className="flex gap-2 items-center">
         <Image src="/images/logo.svg" width={32} height={32} alt="Logo" />
         {/* <Image src="/images/devlinks.svg" width={108} height={21} alt="Logo" /> */}
-        <h2>Devlinks</h2>
+        <h2>devlinks</h2>
       </div>
       <div className="flex xs:gap-2 items-center">
         <Link
           href="/links"
-          className={`hover:text-purple flex gap-2 items-center px-[27px]  py-[11px] rounded-lg paragraph font-[600]  , ${
+          className={`hover:text-purple flex gap-2 items-center md:px-[27px] px-4  md:py-[11px] py-2 rounded-lg paragraph font-[600]  , ${
             pathname === '/links' ? 'bg-lpurple text-purple' : 'bg-transparent'
           }`}
         >
@@ -24,7 +24,7 @@ const Headers = () => {
         </Link>
         <Link
           href="/profile"
-          className={`hover:text-purple flex gap-2 items-center xs:px-[27px]  xs:py-[11px] rounded-lg paragraph font-[600] , ${
+          className={`hover:text-purple flex gap-2 items-center  md:px-[27px] px-4  md:py-[11px] py-2 rounded-lg paragraph font-[600] , ${
             pathname === '/profile'
               ? 'bg-lpurple text-purple'
               : 'bg-transparent'
@@ -37,7 +37,7 @@ const Headers = () => {
       <div>
         <Link
           href="/preview"
-          className="hover:bg-lpurple flex gap-2 items-center px-[10px] py-[5px] xs:px-[27px]  xs:py-[11px] rounded-lg paragraph border border-purple text-purple font-[600]"
+          className="hover:bg-lpurple flex gap-2 items-center  md:px-[27px] px-4  md:py-[11px] py-2 rounded-lg paragraph border border-purple text-purple font-[600]"
         >
           <span className="hidden sm:block">Preview</span>
           <Image

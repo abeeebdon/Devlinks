@@ -6,6 +6,7 @@ import { useAuth } from '@/app/context/AuthContext'
 import CreateLinkCard from '@/components/LinkCard'
 import { Link } from '@/types/Types'
 import { useRouter } from 'next/navigation'
+import Success from '@/components/Success'
 
 const Links = () => {
   const router = useRouter()
@@ -77,7 +78,7 @@ const Links = () => {
         className="md:basis-[60%] flex gap-2 flex-col pb-6"
         onSubmit={handleSubmit}
       >
-        <section className="max-h-[834px] bg-white h-[80vh] overflow-auto scrollBar p-[40px] pb-12 rounded-lg">
+        <section className="max-h-[834px] bg-white h-[80vh] overflow-auto scrollBar p-4 md:p-[40px] pb-12 rounded-lg">
           <div className="text-center">
             <h2 className="heading text-dgrap">Customize your links</h2>
             <p className="paragraph">
@@ -93,7 +94,7 @@ const Links = () => {
             </button>
           </div>
 
-          <div className="bg-lgray text-center mt-6 p-5">
+          <div className="text-center mt-6 p-2 flex flex-col gap-6">
             {links?.length > 0 ? (
               links.map((link, index) => (
                 <CreateLinkCard
@@ -133,13 +134,14 @@ const Links = () => {
             )}
           </div>
         </section>
-
-        <Button
-          text="Save"
-          className="bg-white flex justify-end cursor-pointer px-4 py-4"
-        />
+        <div className="flex justify-end w-full bg-white pt-4 px-6">
+          <Button
+            text="Save"
+            className="w-full sm:w-fit rounded-lg text-white leading-5 font-semibold cursor-pointer px-4 py-4 hover:opacity-20 bg-[#633CFF]"
+          />
+        </div>
       </form>
-      {changesDone && <p className="fixed bottom-0 left-0">changes done</p>}
+      {changesDone && <Success message="Changes saved successfully" icon />}
     </>
   )
 }

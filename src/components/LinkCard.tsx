@@ -85,9 +85,13 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
   }
 
   return (
-    <div className="flex flex-col text-left justify-center mb-6">
+    <div className="bg-lgray p-3 rounded-lg flex flex-col text-left justify-center ">
       <section className="flex justify-between w-full">
-        <h4 className="paragraph font-bold">Link #{`${index + 1}`}</h4>
+        <div className="flex gap-2">
+          <Image src="/images/TwoBar.svg" width={20} height={20} alt="link" />
+
+          <h4 className="paragraph font-bold">Link #{`${index + 1}`}</h4>
+        </div>
         <button onClick={onRemove} type="button">
           Remove
         </button>
@@ -95,7 +99,10 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
 
       <section>
         <div className="relative text-left">
-          <label htmlFor="platform" className="label text-left">
+          <label
+            htmlFor="platform"
+            className="label text-left  text-[12px] text-dgrap leading-[18px]"
+          >
             Platform
           </label>
           <Controller
@@ -109,6 +116,7 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
                   SingleValue: CustomSingleValue,
                   Option: CustomOption,
                 }}
+                className="border-[#D9D9D9] rounded-lg"
                 placeholder="Select a platform"
                 onChange={(option) => {
                   const newName = option?.value || ''
@@ -119,7 +127,10 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
               />
             )}
           />
-          <label htmlFor="link" className="label text-left mt-2">
+          <label
+            htmlFor="link"
+            className="label text-left mt-2 text-[12px] text-dgrap leading-[18px]"
+          >
             Link
           </label>
           <Controller
@@ -129,7 +140,7 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
               <input
                 {...field}
                 type="text"
-                className="block w-full border p-2"
+                className="block border-[#D9D9D9] rounded-lg w-full border p-2"
                 placeholder="Enter link"
                 onChange={(e) => {
                   field.onChange(e.target.value)
