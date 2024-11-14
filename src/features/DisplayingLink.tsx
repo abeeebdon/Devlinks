@@ -1,24 +1,12 @@
 'use client'
+import { displayLinks } from '@/components/data'
 import Success from '@/components/Success'
 import { Link } from '@/types/Types'
 import { useState } from 'react'
 
 const DisplayingLink = ({ id, value, name }: Link) => {
   const [alert, setAlert] = useState(false)
-  const displayLinks = [
-    {
-      identifier: 'github',
-      bgColor: 'red',
-    },
-    {
-      identifier: 'youtube',
-      bgColor: 'blue',
-    },
-    {
-      identifier: 'twitter',
-      bgColor: 'green',
-    },
-  ]
+
   const content = displayLinks.find(
     (data) => data.identifier.toLowerCase() === name?.toLowerCase()
   )

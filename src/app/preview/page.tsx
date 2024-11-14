@@ -30,7 +30,7 @@ const Page = () => {
           />
         </div>
       </header>
-      <section className="bg-white top-[60%] px-12 py-14 min-h-[469px] left-0 right-0 mx-auto rounded-lg static xs:absolute max-w-[349px] xs:shadow-lg">
+      <section className="bg-white top-[60%] px-12 py-14 pb-4 min-h-[70vh] left-0 right-0 mx-auto rounded-lg static xs:absolute max-w-[349px] xs:shadow-lg">
         <div className="text-center heading flex flex-col items-center">
           <div className="border-[5px] rounded-full w-[108px] h-[108px] border-purple p-1 flex justify-center items-center">
             <Image
@@ -46,7 +46,7 @@ const Page = () => {
           <p className="paragraph">{userDetails.email}</p>
         </div>
         <div className="relative mt-5">
-          <SideLink links={userDetails?.links} height="160px" />
+          <SideLink links={userDetails?.links} height="200px" />
         </div>
       </section>
     </section>

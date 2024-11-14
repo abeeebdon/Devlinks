@@ -17,6 +17,9 @@ input[type='file'] {
 .scrollBar {
   scrollbar-width: thin;
 }
+.no-scroll {
+  scrollbar-width: none;
+}
 
 @layer components {
   .heading {

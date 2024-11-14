@@ -2,15 +2,9 @@ import { Link } from '@/types/Types'
 import Image from 'next/image'
 import React, { ReactNode } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FaDev, FaLinkedin } from 'react-icons/fa'
-import {
-  FaGithub,
-  FaSquareXTwitter,
-  FaXTwitter,
-  FaYoutube,
-} from 'react-icons/fa6'
-import { SiFrontendmentor } from 'react-icons/si'
+
 import Select, { components, GroupBase, SingleValue } from 'react-select'
+import { options, OptionType } from './data'
 interface Props {
   index: number
   name: string
@@ -19,11 +13,6 @@ interface Props {
   onRemove: () => void
 }
 
-interface OptionType {
-  value: string
-  label: string
-  imageUrl: ReactNode
-}
 const CustomSingleValue = (props: any) => (
   <components.SingleValue {...props}>
     <div className="flex items-center gap-4">
@@ -47,39 +36,6 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
     defaultValues: { name, value },
   })
 
-  const options: OptionType[] = [
-    {
-      value: 'frontendMentor',
-      label: 'Frontend Mentor',
-      imageUrl: <SiFrontendmentor />,
-    },
-    {
-      value: 'twitter',
-      label: 'Twitter',
-      imageUrl: <FaSquareXTwitter />,
-    },
-    {
-      value: 'github',
-      label: 'Github',
-      imageUrl: <FaGithub />,
-    },
-    {
-      value: 'linkedin',
-      label: 'Linkedin',
-      imageUrl: <FaLinkedin />,
-    },
-    {
-      value: 'youtube',
-      label: 'Youtube',
-      imageUrl: <FaYoutube />,
-    },
-    {
-      value: 'devTo',
-      label: 'DevTo',
-      imageUrl: <FaDev />,
-    },
-  ]
-
   const handleChange = (updatedLink: Link) => {
     onUpdate(updatedLink) // Send the updated data back to the parent
   }
@@ -97,60 +53,58 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
         </button>
       </section>
 
-      <section>
-        <div className="relative text-left">
-          <label
-            htmlFor="platform"
-            className="label text-left  text-[12px] text-dgrap leading-[18px]"
-          >
-            Platform
-          </label>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <Select<OptionType, false>
-                {...field}
-                options={options}
-                components={{
-                  SingleValue: CustomSingleValue,
-                  Option: CustomOption,
-                }}
-                className="border-[#D9D9D9] rounded-lg"
-                placeholder="Select a platform"
-                onChange={(option) => {
-                  const newName = option?.value || ''
-                  field.onChange(newName)
-                  handleChange({ name: newName, value: value })
-                }}
-                value={options.find((opt) => opt.value === field.value)}
-              />
-            )}
-          />
-          <label
-            htmlFor="link"
-            className="label text-left mt-2 text-[12px] text-dgrap leading-[18px]"
-          >
-            Link
-          </label>
-          <Controller
-            name="value"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="text"
-                className="block border-[#D9D9D9] rounded-lg w-full border p-2"
-                placeholder="Enter link"
-                onChange={(e) => {
-                  field.onChange(e.target.value)
-                  handleChange({ name, value: e.target.value }) // Update the link object
-                }}
-              />
-            )}
-          />
-        </div>
-      </section>
+      <div className="relative text-left">
+        <label
+          htmlFor="platform"
+          className="label text-left  text-[12px] text-dgrap leading-[18px]"
+        >
+          Platform
+        </label>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <Select<OptionType, false>
+              {...field}
+              options={options}
+              components={{
+                SingleValue: CustomSingleValue,
+                Option: CustomOption,
+              }}
+              className="border-[#D9D9D9] rounded-lg"
+              placeholder="Select a platform"
+              onChange={(option) => {
+                const newName = option?.value || ''
+                field.onChange(newName)
+                handleChange({ name: newName, value: value })
+              }}
+              value={options.find((opt) => opt.value === field.value)}
+            />
+          )}
+        />
+        <label
+          htmlFor="link"
+          className="label text-left mt-2 text-[12px] text-dgrap leading-[18px]"
+        >
+          Link
+        </label>
+        <Controller
+          name="value"
+          control={control}
+          render={({ field }) => (
+            <input
+              {...field}
+              type="text"
+              className="block border-[#D9D9D9] rounded-lg w-full border p-2"
+              placeholder="Enter link"
+              onChange={(e) => {
+                field.onChange(e.target.value)
+                handleChange({ name, value: e.target.value }) // Update the link object
+              }}
+            />
+          )}
+        />
+      </div>
     </div>
   )
 }
