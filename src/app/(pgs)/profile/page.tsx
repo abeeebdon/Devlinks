@@ -75,9 +75,9 @@ const Profile = () => {
         <p className="paragraph">
           Add your details to create a personal touch to your profile.
         </p>
-        <div className="w-full items-center p-5 mt-10 bg-lgray border rounded-lg mb-6 flex  gap-6">
+        <div className="w-full items-center p-5 mt-10 bg-lgray  rounded-lg mb-6 flex  gap-6">
           <p className="paragraph basis-[40%]">Profile Picture</p>
-          <section className="border h-[255px] flex flex-row justify-between items-center p-8 gap-6">
+          <section className=" h-[255px] flex flex-row justify-between items-center p-8 gap-6">
             <div className="relative flex flex-col justify-center items-center bg-lpurple h-full w-full  p-4">
               <Image
                 src="/images/upload.svg"
