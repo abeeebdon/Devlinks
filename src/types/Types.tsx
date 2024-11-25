@@ -18,3 +18,9 @@ export type Users = {
   links: Link[]
 }
 export type Link = { id?: number; value: string; name: string }
+export interface Review {
+  name: string
+  rating: number
+  comment: string
+  img: string
+}

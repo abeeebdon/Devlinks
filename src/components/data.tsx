@@ -1,3 +1,4 @@
+import { Review } from '@/types/Types'
 import { ReactNode } from 'react'
 import {
   FaDev,
@@ -147,4 +148,26 @@ const options: OptionType[] = [
     imageUrl: <FaStackOverflow />,
   },
 ]
-export { options, displayLinks }
+const reviews: Review[] = [
+  {
+    img: 'elon.jpeg',
+    rating: 5,
+    name: 'Ade Oluremi',
+    comment: 'This is a vey nice idea , it helps me keep my links organized',
+  },
+  {
+    rating: 5,
+    name: 'Ade Oluremi',
+    img: 'elon.jpeg',
+
+    comment: 'This is a vey nice idea , it helps me keep my links organized',
+  },
+  {
+    rating: 5,
+    name: 'Ade Oluremi',
+    img: 'elon.jpeg',
+
+    comment: 'This is a vey nice idea , it helps me keep my links organized',
+  },
+]
+export { options, displayLinks, reviews }
