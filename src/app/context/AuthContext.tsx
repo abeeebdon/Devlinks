@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       const result = await response.json()
       if (response.ok) {
-        console.log(result)
+        // console.log(result)
         const { firstName, lastName, email, profileImageUrl, links, id } =
           result
         setUserDetails({
@@ -66,38 +66,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     fetchUserProfile()
   }, [userId])
-
-  // Function to sign in an existing user
-  // const signUser = async (
-  //   email: string,
-  //   password: string,
-  //   setIsError: Dispatch<SetStateAction<boolean>>
-  // ) => {
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     )
-  //     const user = userCredential.user
-  //     console.log(user.uid)
-  //     setUserId(user.uid)
-  //     if (user.uid) {
-  //       setUserId(user.uid)
-  //     }
-  //     console.log(user)
-  //     await fetchUserProfile(user)
-
-  //     router.push('/links')
-
-  //     // Handle successful sign-in (e.g., store user information)
-  //   } catch (error) {
-  //     console.log('Error signing in user:', error)
-
-  //     setIsError(true)
-  //     // Handle error (e.g., show error message to user)
-  //   }
-  // }
 
   const getData = async () => {
     try {

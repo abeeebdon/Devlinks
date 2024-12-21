@@ -17,21 +17,28 @@ export default function RootLayout({
 
   useEffect(() => {
     console.log(userDetails.links?.length)
-    if (userDetails.links) {
-      setLinks(userDetails.links)
-    }
+
     if (links.length < 1 && !error) {
       setLoading(true)
     }
     if (error) {
       setLoading(false)
     }
+    if (userDetails.links) {
+      setLinks(userDetails.links)
+      setLoading(false)
+    }
     console.log(links.length)
   }, [userDetails])
+
   return (
     <main className="bg-lgray p-2 xs:p-6">
       <Header />
-      <section className="flex gap-6 mt-6 relative justify-between">
+      <section
+        className={`flex gap-6 mt-6 relative ${
+          loading ? 'justify-start' : 'justify-between'
+        }`}
+      >
         <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white justify-center items-center basis-[40%]">
           <div className="h-full relative">
             <Image
@@ -44,6 +51,13 @@ export default function RootLayout({
           </div>
         </div>
         {children}
+        {/* {loading ? (
+          <div className="basis-[40%] flex items-center justify-center text-center">
+            <p className="text-2xl">Loading...</p>
+          </div>
+        ) : (
+          children
+        )} */}
       </section>
     </main>
   )
