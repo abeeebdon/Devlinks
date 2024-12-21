@@ -182,7 +182,7 @@ const faqs: Faq[] = [
   },
   {
     qs: 'What is devlinks',
-    ans: 'Devlinks is a link mangaemnt tool for developers',
+    ans: 'Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers ',
   },
   {
     qs: 'What is devlinks',
@@ -197,4 +197,10 @@ const faqs: Faq[] = [
     ans: 'Devlinks is a link mangaemnt tool for developers',
   },
 ]
-export { options, displayLinks, reviews, faqs }
+
+const objectives: string[] = [
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+]
+export { options, displayLinks, reviews, faqs, objectives }
