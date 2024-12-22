@@ -24,7 +24,7 @@ const Login = () => {
     password: '',
   })
   const [isError, setIsError] = useState(false)
-  const [passwordErr, setPasswordErr] = useState<boolean>(false)
+
   const { setUserDetails, userDetails, setUserId, fetchUserProfile } = useAuth()
   const router = useRouter()
 
@@ -64,22 +64,6 @@ const Login = () => {
     try {
       await LoginValidationSchema.validate(userSignin, { abortEarly: false })
     } catch (error: any) {
-      // const newErrors: { [key: string]: string } = {} // Define the type of newErrors if using TypeScript
-      // const errorSS = error?.inner || []
-
-      // errorSS.forEach((err: any) => {
-      //   newErrors[err.path] = err.message
-      // })
-
-      // // Set the errors once, after the loop
-      // setErrors(newErrors)
-
-      // // Logging the updated errors
-      // setErrors(error.errors)
-      // // console.log(newErrors)
-      // const err = error.errors.map((err: string) => {
-      //   console.log(error.errors)
-      // })
       const errorObject = error.inner.reduce((acc: any, err: any) => {
         acc[err.path] = err.message // Accumulate errors by path (field name)
         return acc
@@ -155,9 +139,9 @@ const Login = () => {
               className="text-dgrap paragraph bg-transparent w-full"
             />
           </div>
-          {passwordErr && <p className="err label">Please check again</p>}
+
           {errors.password && <p className="err label">{errors.password}</p>}
-          {isError && <p className="mt-4 err">There is an error</p>}
+          {isError && <p className="mt-4 err">Incorrect Login Details</p>}
         </div>
         <Button
           isLoading={isLoading}

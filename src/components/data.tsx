@@ -147,4 +147,60 @@ const options: OptionType[] = [
     imageUrl: <FaStackOverflow />,
   },
 ]
-export { options, displayLinks }
+
+export interface Review {
+  author: string
+  text: string
+  rating: number
+}
+
+export interface Faq {
+  qs: string
+  ans: string
+}
+const reviews: Review[] = [
+  {
+    author: 'Edward Baker',
+    text: ' Devlinks allows me to organise my links, give it a try and you will enjoy it',
+    rating: 3,
+  },
+  {
+    author: 'Edward Baker',
+    text: ' Devlinks allows me to organise my links, give it a try and you will enjoy it',
+    rating: 5,
+  },
+  {
+    author: 'Edward Baker',
+    text: ' Devlinks allows me to organise my links, give it a try and you will enjoy it',
+    rating: 4,
+  },
+]
+const faqs: Faq[] = [
+  {
+    qs: 'What is devlinks',
+    ans: 'Devlinks is a link mangaemnt tool for developers Devlinks allows me to organise my links, give it a try and you will enjoy it',
+  },
+  {
+    qs: 'How do I get devlinks',
+    ans: 'Devlinks is a link mangaemnt tool for developers  Devlinks allows me to organise my links, give it a try and you will enjoy it Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers ',
+  },
+  {
+    qs: 'Is Devlinks free or with subscription',
+    ans: 'Devlinks is a link mangaemnt tool for developers',
+  },
+  {
+    qs: 'What is devlinks',
+    ans: 'Devlinks is a link mangaemnt tool for developers',
+  },
+  {
+    qs: 'What is devlinks',
+    ans: 'Devlinks is a link mangaemnt tool for developers',
+  },
+]
+
+const objectives: string[] = [
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+  'Devlinks is an innovative organization dedicated to simplifying the way developers share and manage their personal and professional links. Recognizing the growing need for a streamlined method to share portfolios, repositories, blogs, and social profiles, Devlinks provides a platform that consolidates all these',
+]
+export { options, displayLinks, reviews, faqs, objectives }
