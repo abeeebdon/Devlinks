@@ -178,14 +178,14 @@ const reviews: Review[] = [
 const faqs: Faq[] = [
   {
     qs: 'What is devlinks',
-    ans: 'Devlinks is a link mangaemnt tool for developers',
+    ans: 'Devlinks is a link mangaemnt tool for developers Devlinks allows me to organise my links, give it a try and you will enjoy it',
   },
   {
-    qs: 'What is devlinks',
-    ans: 'Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers ',
+    qs: 'How do I get devlinks',
+    ans: 'Devlinks is a link mangaemnt tool for developers  Devlinks allows me to organise my links, give it a try and you will enjoy it Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers Devlinks is a link mangaemnt tool for developers ',
   },
   {
-    qs: 'What is devlinks',
+    qs: 'Is Devlinks free or with subscription',
     ans: 'Devlinks is a link mangaemnt tool for developers',
   },
   {

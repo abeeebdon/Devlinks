@@ -125,7 +125,7 @@ const page = () => {
 
       {/* FaQs  */}
       <article className="flex justify-center">
-        <section className="mt-20 p-4 w-full max-w-[1400px]">
+        <section className="mt-20 pb-20 p-4 w-full max-w-[1400px]">
           <h2 className="text-2xl font-semibold text-purple text-center">
             Frequently Asked Questions (FAQs)
           </h2>
