@@ -5,50 +5,14 @@ import { FaBars, FaQuoteLeft } from 'react-icons/fa'
 import { IoIosStar } from 'react-icons/io'
 import FAqs from './FAqs'
 import { CiMail, CiPhone } from 'react-icons/ci'
+import LandingHeader from './LandingHeader'
 
 const page = () => {
   return (
     <section className="  bg-lpurple">
       {/* Header  */}
       <section className="bg-purple fixed top-0 left-0 right-0 w-full flex justify-center">
-        <header className=" p-4 w-full flex items-center justify-between min-h-[13vh] max-w-[1400px]">
-          <div className="flex items-center gap-2">
-            <Image src="/images/logo2.svg" width={32} height={32} alt="Logo" />
-
-            <h2 className="text-xl text-white">devlinks</h2>
-          </div>
-          <div className="flex flex-row-reverse md:flex-row items-center text-white gap-4 lg:gap-6">
-            <div className=" items-center gap-4 lg:gap-6 hidden md:flex">
-              <p>Features </p>
-              <p>Pricing</p>
-              <p>Contact us </p>
-            </div>
-            <div className="md:hidden">
-              <FaBars size={30} />
-            </div>
-
-            <Link
-              href="/signup"
-              className="border border-white p-2  md:p-3 text-sm text-white rounded-md  hover:text-lpurple"
-            >
-              Get Started
-            </Link>
-          </div>
-          {/* <div className="flex items-center gap-4 ">
-            <Link
-              href="/signup"
-              className="bg-purple p-3 text-sm text-white rounded-md hover:bg-lpurple hover:text-purple"
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/login"
-              className="border p-3 border-purple text-purple rounded-md hover:border-2"
-            >
-              Login
-            </Link>
-          </div> */}
-        </header>
+        <LandingHeader />
       </section>
       {/* What is Devlinks  */}
       <article className="mt-[10vh] py-10 flex bg-purple justify-center">
