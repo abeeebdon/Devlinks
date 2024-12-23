@@ -1,48 +1,18 @@
 import { faqs, objectives, Review as Rev, reviews } from '@/components/data'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaQuoteLeft } from 'react-icons/fa'
+import { FaBars, FaQuoteLeft } from 'react-icons/fa'
 import { IoIosStar } from 'react-icons/io'
 import FAqs from './FAqs'
 import { CiMail, CiPhone } from 'react-icons/ci'
+import LandingHeader from './LandingHeader'
 
 const page = () => {
   return (
     <section className="  bg-lpurple">
       {/* Header  */}
       <section className="bg-purple fixed top-0 left-0 right-0 w-full flex justify-center">
-        <header className=" p-4 w-full flex items-center justify-between min-h-[13vh] max-w-[1400px]">
-          <div className="flex items-center gap-2">
-            <Image src="/images/logo2.svg" width={32} height={32} alt="Logo" />
-
-            <h2 className="text-xl text-white">devlinks</h2>
-          </div>
-          <div className="flex items-center text-white gap-4 lg:gap-6">
-            <p>Features </p>
-            <p>Pricing</p>
-            <p>Contact us </p>
-            <Link
-              href="/signup"
-              className="border border-white p-3 text-sm text-white rounded-md  hover:text-lpurple"
-            >
-              Get Started
-            </Link>
-          </div>
-          {/* <div className="flex items-center gap-4 ">
-            <Link
-              href="/signup"
-              className="bg-purple p-3 text-sm text-white rounded-md hover:bg-lpurple hover:text-purple"
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/login"
-              className="border p-3 border-purple text-purple rounded-md hover:border-2"
-            >
-              Login
-            </Link>
-          </div> */}
-        </header>
+        <LandingHeader />
       </section>
       {/* What is Devlinks  */}
       <article className="mt-[10vh] py-10 flex bg-purple justify-center">
@@ -137,13 +107,13 @@ const page = () => {
         </section>
       </article>
       <footer className="relative mt-20 min-h-[15vh] p-4 flex justify-center bg-purple">
-        <div className="flex text-white justify-between max-w-[1400px] w-full">
+        <div className="flex flex-col md:flex-row gap-6 text-white justify-between max-w-[1400px] w-full">
           <div className="flex items-center gap-4 text-white">
             <Image src="/images/logo2.svg" width={24} height={24} alt="Logo" />
 
             <h2 className="text-lg">devlinks</h2>
           </div>
-          <p className="text-lgray opacity-10 absolute text-6xl top-1/3 left-0 right-0 text-center m-auto">
+          <p className="text-lgray opacity-10 absolute md:text-lg lg:text-6xl top-1/3 left-0 right-0 text-center m-auto">
             Especially for Developers
           </p>
 
