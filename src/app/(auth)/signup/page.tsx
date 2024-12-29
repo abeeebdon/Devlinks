@@ -53,7 +53,6 @@ const Signup = () => {
           links: [],
           createdAt: new Date(),
         })
-        console.log('User profile created')
         // cookies().set('auth', user.uid)
       } catch (error) {
         setIsLoading(false)
