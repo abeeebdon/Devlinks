@@ -7,7 +7,7 @@ import { FaBars, FaTimes } from 'react-icons/fa'
 const LandingHeader = () => {
   const [showSidebar, setShowSideBar] = useState<boolean>(false)
   return (
-    <header className=" p-4 w-full flex items-center justify-between min-h-[13vh] max-w-[1400px]">
+    <header className="p-4 w-full flex items-center justify-between h-[80px] max-w-[1400px]">
       <div className="flex items-center gap-2">
         <Image src="/images/logo2.svg" width={32} height={32} alt="Logo" />
 
