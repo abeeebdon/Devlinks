@@ -1,7 +1,7 @@
 import { faqs, objectives, Review as Rev, reviews } from '@/components/data'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaBars, FaQuoteLeft } from 'react-icons/fa'
+import { FaQuoteLeft } from 'react-icons/fa'
 import { IoIosStar } from 'react-icons/io'
 import FAqs from './FAqs'
 import { CiMail, CiPhone } from 'react-icons/ci'
@@ -19,7 +19,7 @@ const page = () => {
         <section className="mt-10 p-4 flex flex-col md:flex-row gap-[7%] justify-center w-full max-w-[1400px]">
           <div className="basis-1/2 max-w-[500px] w-full">
             <h2 className=" text-2xl text-white font-bold">What is Devlinks</h2>
-            <p className="text-white my-4">
+            <p className="text-white mt-4 mb-8">
               Devlinks is an innovative organization dedicated to simplifying
               the way developers share and manage their personal and
               professional links. Recognizing the growing need for a streamlined
@@ -32,7 +32,7 @@ const page = () => {
             </p>
             <Link
               href="/signup"
-              className="mt-6 bg-green-600 hover:bg-green-400 text-white border-none p-3 text-lg  rounded-md "
+              className="mt-10 bg-green-600 hover:bg-green-400 text-white border-none p-3 text-lg  rounded-md "
             >
               Get Started
             </Link>
@@ -50,7 +50,7 @@ const page = () => {
       </article>
 
       <article className="flex bg-lgray justify-center ">
-        <section className="w-full max-w-[1400px] text-gray text-center py-[100px]">
+        <section className="w-full max-w-[1400px] text-gray text-center py-[50px]">
           <h2 className="text-2xl font-semibold ">Devlinks</h2>
           <p>Especially for Developers</p>
         </section>
@@ -79,8 +79,8 @@ const page = () => {
       </article>
 
       {/* Reviews  */}
-      <article className="py-[100px] flex justify-center">
-        <section className="mt-10 p-4 w-full max-w-[1400px] text-center">
+      <article className="mt-10  py-[50px] flex justify-center">
+        <section className="p-4 w-full max-w-[1400px] text-center">
           <h2 className="text-2xl font-semibold text-purple">Reviews </h2>
           <p className="text-gray text-xl">
             Here what our esteemed users are saying about us
@@ -94,8 +94,8 @@ const page = () => {
       </article>
 
       {/* FaQs  */}
-      <article className="flex justify-center">
-        <section className="mt-20 pb-20 p-4 w-full max-w-[1400px]">
+      <article className="mt-10 flex justify-center">
+        <section className=" pb-20 p-4 w-full max-w-[1400px]">
           <h2 className="text-2xl font-semibold text-purple text-center">
             Frequently Asked Questions (FAQs)
           </h2>
