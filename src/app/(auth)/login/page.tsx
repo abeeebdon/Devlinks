@@ -54,7 +54,6 @@ const Login = () => {
       }
     } catch (error) {
       setIsError(true)
-      console.log(error)
     } finally {
       setIsLoading(false)
     }
@@ -72,7 +71,6 @@ const Login = () => {
       return errors // Return the error object
     }
     setIsLoading(true)
-    // console.log('done')
     submitForm()
   }
 
