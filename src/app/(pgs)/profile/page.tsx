@@ -84,7 +84,7 @@ const Profile = () => {
             <div className="relative flex flex-col justify-center items-center bg-lpurple h-full w-full p-4">
               <SlPicture
                 size={30}
-                color={imageUrl ? 'white' : 'purple'}
+                color={imageUrl ? 'white' : '#633CFF'}
                 className="z-20"
               />
 
