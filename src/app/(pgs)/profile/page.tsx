@@ -6,6 +6,7 @@ import { useAuth } from '@/app/context/AuthContext'
 import { useEffect, useState } from 'react'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import Success from '@/components/Success'
+import { SlPicture } from 'react-icons/sl'
 
 const Profile = () => {
   // datas coming from useContext
@@ -75,17 +76,23 @@ const Profile = () => {
         <p className="paragraph">
           Add your details to create a personal touch to your profile.
         </p>
-        <div className="w-full items-center p-5 mt-10 bg-lgray  rounded-lg mb-6 flex  gap-6">
-          <p className="paragraph basis-[40%]">Profile Picture</p>
-          <section className=" h-[255px] flex flex-row justify-between items-center p-8 gap-6">
-            <div className="relative flex flex-col justify-center items-center bg-lpurple h-full w-full  p-4">
-              <Image
-                src="/images/upload.svg"
-                alt="upload"
-                width={40}
-                height={40}
+        <div className="w-full p-5 mt-10 bg-lgray  rounded-lg mb-6 flex flex-col sm:flex-row sm:items-center  gap-6">
+          <p className="paragraph p-4 text-[16px] leading-6 sm:p-8 basis-[30%]">
+            Profile Picture
+          </p>
+          <section className="h-[255px] flex flex-col sm:flex-row justify-between sm:items-center p-4 sm:p-8 gap-6">
+            <div className="relative flex flex-col justify-center items-center bg-lpurple h-full w-full p-4">
+              <SlPicture
+                size={30}
+                color={imageUrl ? 'white' : '#633CFF'}
+                className="z-20"
               />
-              <p className="paragraph font-[600] text-purple mt-2">
+
+              <p
+                className={`paragraph font-[600] mt-2 z-20 ${
+                  imageUrl ? 'text-white' : 'text-purple'
+                } `}
+              >
                 {imageUrl ? 'Change Image' : '+ Upload Image'}
               </p>
               <input
@@ -100,21 +107,21 @@ const Profile = () => {
                     src={imageUrl}
                     width={193}
                     height={193}
+                    className="w-full h-full"
                     alt="Profile"
                   />
                 </div>
               )}
             </div>
-            <p className="label text-gray text-center sm:text-left">
-              Image must be below 1024x1024px.
-              <br /> Use PNG or JPG format.
+            <p className="label text-gray text-left text-[12px] leading-[19px]">
+              Image must be below 1024x1024px. Use PNG or JPG format.
             </p>
           </section>
         </div>
         <form onSubmit={(e) => setDatas(e)}>
           <div className="bg-lgray p-5">
-            <div className="flex justify-between items-center">
-              <label className="paragraph">First name*</label>
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
+              <label className="paragraph text-left">First name</label>
               <input
                 type="text"
                 placeholder="Ben"
@@ -125,8 +132,8 @@ const Profile = () => {
                 className=" p-3 bg-white paragraph w-full max-w-[344px] text-dgrap border border-[#D9D9D9] rounded"
               />
             </div>
-            <div className="flex justify-between items-center my-3">
-              <label className="paragraph">Lastname</label>
+            <div className="my-4 flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
+              <label className="paragraph">Last name</label>
               <input
                 type="text"
                 placeholder="Wright"
@@ -137,7 +144,7 @@ const Profile = () => {
                 className="p-3 bg-white paragraph w-full max-w-[344px] text-dgrap border border-[#D9D9D9] rounded"
               />
             </div>
-            <div className="flex justify-between items-center ">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
               <label className="paragraph">Email</label>
               <input
                 type="email"
@@ -150,9 +157,11 @@ const Profile = () => {
               />
             </div>
           </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded">
-            Save
-          </button>
+          <div className="flex justify-end w-full mt-10">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded">
+              Save
+            </button>
+          </div>
         </form>
       </div>
       {done && (

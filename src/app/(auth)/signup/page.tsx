@@ -5,9 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useAuth } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
-
 import { firestore } from '../../../config'
-
 import { doc, setDoc } from 'firebase/firestore'
 
 type Users = {
@@ -30,6 +28,7 @@ const Signup = () => {
   // {use States}
   const router = useRouter()
   const { userDetails, setUserDetails, setUserId } = useAuth()
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (userSignup.email === '') {
