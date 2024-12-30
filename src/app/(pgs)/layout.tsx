@@ -33,9 +33,9 @@ export default function RootLayout({
     <main className="bg-lgray p-2 xs:p-6">
       <Header />
       <section
-        className={`flex gap-6 mt-6 relative ${
-          loading ? 'justify-start' : 'justify-between'
-        }`}
+        className="flex gap-6 mt-6 relative 
+         justify-between
+        "
       >
         <div className="hidden md:flex w-full xs:p-[40px] h-[75vh] max-h-[834px] rounded-lg max-w-[560px] bg-white justify-center items-center basis-[40%]">
           <div className="h-full relative">

@@ -10,16 +10,16 @@ const Headers = () => {
     <header className="flex justify-between items-center p-4 bg-white">
       <div className="flex gap-2 items-center">
         <Image src="/images/logo.svg" width={32} height={32} alt="Logo" />
-        <h2>devlinks</h2>
+        <h2 className="text-[#333333] font-bold text-lg">devlinks</h2>
       </div>
-      <div className="flex xs:gap-2 items-center">
+      <div className="flex xs:gap-2 text-base items-center text-[#737373]">
         <Link
           href="/links"
           className={`hover:text-purple flex gap-2 items-center md:px-[27px] px-4  md:py-[11px] py-2 rounded-lg paragraph font-[600]  , ${
             pathname === '/links' ? 'bg-lpurple text-purple' : 'bg-transparent'
           }`}
         >
-          <FaLink size={24} />
+          <FaLink size={16} />
           <span className="hidden sm:block">Links</span>
         </Link>
         <Link
@@ -30,7 +30,7 @@ const Headers = () => {
               : 'bg-transparent'
           }`}
         >
-          <FaRegUserCircle size={24} />
+          <FaRegUserCircle size={16} />
           <span className="hidden sm:block">Profile Details</span>
         </Link>
       </div>
