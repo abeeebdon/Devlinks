@@ -16,8 +16,6 @@ export default function RootLayout({
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    console.log(userDetails.links?.length)
-
     if (links.length < 1 && !error) {
       setLoading(true)
     }
@@ -51,13 +49,6 @@ export default function RootLayout({
           </div>
         </div>
         {children}
-        {/* {loading ? (
-          <div className="basis-[40%] flex items-center justify-center text-center">
-            <p className="text-2xl">Loading...</p>
-          </div>
-        ) : (
-          children
-        )} */}
       </section>
     </main>
   )

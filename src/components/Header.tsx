@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { FaLink } from 'react-icons/fa'
+import { FaRegUserCircle } from 'react-icons/fa'
 const Headers = () => {
   const pathname = usePathname()
 
@@ -17,7 +19,7 @@ const Headers = () => {
             pathname === '/links' ? 'bg-lpurple text-purple' : 'bg-transparent'
           }`}
         >
-          <Image src="/images/links.svg" width={20} height={20} alt="link" />
+          <FaLink size={24} />
           <span className="hidden sm:block">Links</span>
         </Link>
         <Link
@@ -28,7 +30,7 @@ const Headers = () => {
               : 'bg-transparent'
           }`}
         >
-          <Image src="/images/user.svg" width={20} height={20} alt="link" />
+          <FaRegUserCircle size={24} />
           <span className="hidden sm:block">Profile Details</span>
         </Link>
       </div>
