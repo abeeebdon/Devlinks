@@ -94,12 +94,24 @@ const Signup = () => {
     createUser(userSignup.email, userSignup.password)
   }
 
+  const handleUseGoogle = async () => {
+    try {
+      console
+      const resp = await fetch('localhost://4000/auth/google')
+      const result = await resp.json()
+      console.log(result)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <section className=" xs:p-[40px]">
       <h2 className="heading">Create account</h2>
       <p className="paragraph mt-2">
         Let’s get you started sharing your links!
       </p>
+      <button onClick={() => handleUseGoogle}>Use Google</button>
       <form
         onSubmit={(e) => handleSubmit(e)}
         onClick={() => {
