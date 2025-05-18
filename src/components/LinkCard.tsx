@@ -1,16 +1,17 @@
-import { Link } from '@/types/Types'
-import Image from 'next/image'
-import React, { ReactNode } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Link } from "@/types/Types";
+import Image from "next/image";
+import React, { ReactNode } from "react";
+import { Controller, useForm } from "react-hook-form";
 
-import Select, { components, GroupBase, SingleValue } from 'react-select'
-import { options, OptionType } from './data'
+import Select, { components, GroupBase, SingleValue } from "react-select";
+import { options } from "./data";
+import { OptionType } from "./types";
 interface Props {
-  index: number
-  name: string
-  value: string
-  onUpdate: (updatedLink: Link) => void
-  onRemove: () => void
+  index: number;
+  name: string;
+  value: string;
+  onUpdate: (updatedLink: Link) => void;
+  onRemove: () => void;
 }
 
 const CustomSingleValue = (props: any) => (
@@ -20,7 +21,7 @@ const CustomSingleValue = (props: any) => (
       {props.data.label}
     </div>
   </components.SingleValue>
-)
+);
 
 const CustomOption = (props: any) => (
   <components.Option {...props}>
@@ -29,16 +30,16 @@ const CustomOption = (props: any) => (
       {props.data.label}
     </div>
   </components.Option>
-)
+);
 
 const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
   const { control } = useForm({
     defaultValues: { name, value },
-  })
+  });
 
   const handleChange = (updatedLink: Link) => {
-    onUpdate(updatedLink) // Send the updated data back to the parent
-  }
+    onUpdate(updatedLink); // Send the updated data back to the parent
+  };
 
   return (
     <div className="bg-lgray p-3 rounded-lg flex flex-col text-left justify-center ">
@@ -74,9 +75,9 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
               className="border-[#D9D9D9] rounded-lg"
               placeholder="Select a platform"
               onChange={(option) => {
-                const newName = option?.value || ''
-                field.onChange(newName)
-                handleChange({ name: newName, value: value })
+                const newName = option?.value || "";
+                field.onChange(newName);
+                handleChange({ name: newName, value: value });
               }}
               value={options.find((opt) => opt.value === field.value)}
             />
@@ -98,15 +99,15 @@ const CreateLinkCard = ({ index, name, value, onUpdate, onRemove }: Props) => {
               className="block border-[#D9D9D9] rounded-lg w-full border p-2"
               placeholder="Enter link"
               onChange={(e) => {
-                field.onChange(e.target.value)
-                handleChange({ name, value: e.target.value }) // Update the link object
+                field.onChange(e.target.value);
+                handleChange({ name, value: e.target.value }); // Update the link object
               }}
             />
           )}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateLinkCard
+export default CreateLinkCard;
