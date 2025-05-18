@@ -9,49 +9,8 @@ import {
 } from "react-icons/fa";
 import { FaGithub, FaSquareXTwitter, FaYoutube } from "react-icons/fa6";
 import { SiFrontendmentor } from "react-icons/si";
+import { Faq, OptionType, ReviewType } from "./types";
 
-export interface OptionType {
-  value: string;
-  label: string;
-  imageUrl: ReactNode;
-}
-// const options = [
-//   {
-//     value: 'Google',
-//     label: 'Google',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-//   {
-//     value: 'FrontendMentor',
-//     label: 'FrontendMentor',
-//     imageUrl: '/images/frontendMentor1.svg',
-//   },
-// ]
 const displayLinks = [
   {
     identifier: "github",
@@ -148,17 +107,7 @@ const options: OptionType[] = [
   },
 ];
 
-export interface Review {
-  author: string;
-  text: string;
-  rating: number;
-}
-
-export interface Faq {
-  qs: string;
-  ans: string;
-}
-const reviews: Review[] = [
+const reviews: ReviewType[] = [
   {
     author: "Edward Baker",
     text: " Devlinks allows me to organise my links, give it a try and you will enjoy it",

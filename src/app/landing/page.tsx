@@ -1,11 +1,11 @@
-import { faqs, objectives, Review as Rev, reviews } from "@/components/data";
+import { faqs, objectives, reviews } from "@/components/data";
 import Image from "next/image";
 import Link from "next/link";
 import { FaQuoteLeft } from "react-icons/fa";
-import { IoIosStar } from "react-icons/io";
 import FAqs from "./FAqs";
 import { CiMail, CiPhone } from "react-icons/ci";
 import LandingHeader from "./LandingHeader";
+import { Review } from "./Review";
 
 const page = () => {
   const features = [
@@ -63,7 +63,7 @@ const page = () => {
         <section className="w-full max-w-[1400px] text-gray text-center py-[50px]">
           <h2 className="text-2xl font-semibold ">Devlinks</h2>
           <p>Especially for Developers</p>
-          <p className="text-lg ">
+          <p className="text-lg px-6">
             We simplify your digital presence with one shareable link for all
             your developer resources— GitHub repos, blogs, portfolios, and
             social profiles—all in one place.
@@ -132,18 +132,8 @@ const page = () => {
       </article>
 
       {/* FaQs  */}
-      <article className="mt-10 flex justify-center">
-        <section className=" pb-20 p-4 w-full max-w-[1400px]">
-          <h2 className="text-2xl font-semibold text-purple text-center">
-            Frequently Asked Questions (FAQs)
-          </h2>
-          <article className="mt-4">
-            {faqs.map((faq, index) => {
-              return <FAqs key={index} {...faq} />;
-            })}
-          </article>
-        </section>
-      </article>
+      <FAqs />
+
       <footer className="relative mt-20 min-h-[15vh] p-4 flex justify-center bg-purple">
         <div className="flex flex-col md:flex-row gap-6 text-white justify-between max-w-[1400px] w-full">
           <div className="flex items-center gap-4 text-white">
@@ -176,27 +166,3 @@ const page = () => {
 export default page;
 
 //
-
-const Review = ({ author, text, rating }: Rev) => {
-  return (
-    <div className="flex-col text-left bg-lgray shadow p-3 rounded-md max-w-[350px]">
-      <h3 className="text-lg text-gray">{author}</h3>
-      <p className=" my-2 text-dgrap">{text}</p>
-      <Rating rating={rating} />
-    </div>
-  );
-};
-
-const Rating = (prop: any) => {
-  const { rating } = prop;
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (i <= rating) {
-      stars.push(<IoIosStar key={i} color="gold" />);
-    } else {
-      stars.push(<IoIosStar key={i} color="butter" />);
-    }
-  }
-
-  return <div className="flex items-center">{stars}</div>;
-};
