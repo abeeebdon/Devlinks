@@ -1,13 +1,21 @@
-import { faqs, objectives, Review as Rev, reviews } from '@/components/data'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FaQuoteLeft } from 'react-icons/fa'
-import { IoIosStar } from 'react-icons/io'
-import FAqs from './FAqs'
-import { CiMail, CiPhone } from 'react-icons/ci'
-import LandingHeader from './LandingHeader'
+import { faqs, objectives, Review as Rev, reviews } from "@/components/data";
+import Image from "next/image";
+import Link from "next/link";
+import { FaQuoteLeft } from "react-icons/fa";
+import { IoIosStar } from "react-icons/io";
+import FAqs from "./FAqs";
+import { CiMail, CiPhone } from "react-icons/ci";
+import LandingHeader from "./LandingHeader";
 
 const page = () => {
+  const features = [
+    "Unified Link Page",
+    "Custom Branding",
+    "Easy Link Management",
+    "Link Analytics",
+    "Mobile-Optimized",
+    "Fast & Secure",
+  ];
   return (
     <section className="  bg-lpurple">
       {/* Header  */}
@@ -18,7 +26,9 @@ const page = () => {
       <article className="mt-[10vh] py-10 flex bg-purple justify-center">
         <section className="mt-10 p-4 flex flex-col md:flex-row gap-[7%] justify-center w-full max-w-[1400px]">
           <div className="basis-1/2 max-w-[500px] w-full">
-            <h2 className=" text-2xl text-white font-bold">What is Devlinks</h2>
+            <h2 className="text-2xl text-white font-bold mb-4">
+              Simplify How You Share. Focus on What You Build.
+            </h2>
             <p className="text-white mt-4 mb-8">
               Devlinks is an innovative organization dedicated to simplifying
               the way developers share and manage their personal and
@@ -53,6 +63,11 @@ const page = () => {
         <section className="w-full max-w-[1400px] text-gray text-center py-[50px]">
           <h2 className="text-2xl font-semibold ">Devlinks</h2>
           <p>Especially for Developers</p>
+          <p className="text-lg ">
+            We simplify your digital presence with one shareable link for all
+            your developer resources— GitHub repos, blogs, portfolios, and
+            social profiles—all in one place.
+          </p>
         </section>
       </article>
 
@@ -72,11 +87,34 @@ const page = () => {
                   <FaQuoteLeft />
                   <p className="mt-4">{obj}</p>
                 </div>
-              )
+              );
             })}
           </article>
         </section>
       </article>
+      {/* === Features Section === */}
+      <section className="py-16 px-4 bg-gray-100" id="features">
+        <div className="max-w-6xl mx-auto text-center">
+          <h3 className="text-3xl font-semibold mb-10">
+            What You Get with Devlinks
+          </h3>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-md transition"
+              >
+                <h4 className="text-xl font-semibold mb-2">{feature}</h4>
+                <p className="text-gray-600 text-sm">
+                  {feature === "Unified Link Page"
+                    ? "One link for all your developer resources."
+                    : "Effortless tools to showcase and manage your work."}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Reviews  */}
       <article className="mt-10  py-[50px] flex justify-center">
@@ -87,7 +125,7 @@ const page = () => {
           </p>
           <article className="mt-6 flex flex-col md:flex-row items-center gap-4 justify-center flex-wrap lg:flex-nowrap">
             {reviews.map((review, index) => {
-              return <Review key={index} {...review} />
+              return <Review key={index} {...review} />;
             })}
           </article>
         </section>
@@ -101,7 +139,7 @@ const page = () => {
           </h2>
           <article className="mt-4">
             {faqs.map((faq, index) => {
-              return <FAqs key={index} {...faq} />
+              return <FAqs key={index} {...faq} />;
             })}
           </article>
         </section>
@@ -132,10 +170,10 @@ const page = () => {
         </div>
       </footer>
     </section>
-  )
-}
+  );
+};
 
-export default page
+export default page;
 
 //
 
@@ -146,19 +184,19 @@ const Review = ({ author, text, rating }: Rev) => {
       <p className=" my-2 text-dgrap">{text}</p>
       <Rating rating={rating} />
     </div>
-  )
-}
+  );
+};
 
 const Rating = (prop: any) => {
-  const { rating } = prop
-  const stars = []
+  const { rating } = prop;
+  const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
-      stars.push(<IoIosStar key={i} color="gold" />)
+      stars.push(<IoIosStar key={i} color="gold" />);
     } else {
-      stars.push(<IoIosStar color="butter" />)
+      stars.push(<IoIosStar key={i} color="butter" />);
     }
   }
 
-  return <div className="flex items-center">{stars}</div>
-}
+  return <div className="flex items-center">{stars}</div>;
+};
