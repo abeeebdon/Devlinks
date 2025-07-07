@@ -1,109 +1,98 @@
-'use client'
-import Link from 'next/link'
-import Button from '@/components/Button'
-import Image from 'next/image'
-import { useState } from 'react'
-import { useAuth } from '@/app/context/AuthContext'
-import { useRouter } from 'next/navigation'
-import { firestore } from '../../../config'
-import { doc, setDoc } from 'firebase/firestore'
+"use client";
+import Link from "next/link";
+import Button from "@/components/Button";
+import Image from "next/image";
+import { useState } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { firestore } from "../../../config";
+import { doc, setDoc } from "firebase/firestore";
 
 type Users = {
-  email: string
-  password: string
-  cPassword: string
-}
+  email: string;
+  password: string;
+  cPassword: string;
+};
 
 const Signup = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const [userSignup, setUserSignup] = useState<Users>({
-    email: '',
-    password: '',
-    cPassword: '',
-  })
-  const [emailErr, setEmailErr] = useState<boolean>(false)
-  const [passwordErr, setPasswordErr] = useState<boolean>(false)
+    email: "",
+    password: "",
+    cPassword: "",
+  });
+  const [emailErr, setEmailErr] = useState<boolean>(false);
+  const [passwordErr, setPasswordErr] = useState<boolean>(false);
 
   // {use States}
-  const router = useRouter()
-  const { userDetails, setUserDetails, setUserId } = useAuth()
+  const router = useRouter();
+  const { userDetails, setUserDetails, setUserId } = useAuth();
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
-    if (userSignup.email === '') {
-      setEmailErr(true)
+    e.preventDefault();
+    if (userSignup.email === "") {
+      setEmailErr(true);
     } else if (userSignup.password.length < 8) {
-      setPasswordErr(true)
-      return
+      setPasswordErr(true);
+      return;
     } else if (userSignup.password !== userSignup.cPassword) {
-      setPasswordErr(true)
-      return
+      setPasswordErr(true);
+      return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     const createUserProfile = async (user: any) => {
       try {
-        await setDoc(doc(firestore, 'users', user.uid), {
+        await setDoc(doc(firestore, "users", user.uid), {
           id: user.uid,
           email: user.email,
-          firstName: '',
-          lastName: '',
-          profileImageUrl: '',
+          firstName: "",
+          lastName: "",
+          profileImageUrl: "",
           links: [],
           createdAt: new Date(),
-        })
+        });
         // cookies().set('auth', user.uid)
       } catch (error) {
-        setIsLoading(false)
-        setIsError(true)
-        console.error('Error creating user profile:', error)
+        setIsLoading(false);
+        setIsError(true);
+        console.error("Error creating user profile:", error);
       }
-    }
+    };
 
     const createUser = async (email: string, password: string) => {
       try {
-        const response = await fetch('/api/signup', {
-          method: 'POST',
+        const response = await fetch("/api/signup", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             email: email,
             password: password,
           }),
-        })
-        const result = await response.json()
+        });
+        const result = await response.json();
         if (response.ok) {
-          const { user, message, uid }: any = result
-          setUserId(uid)
-          setUserDetails({ ...userDetails, id: uid })
-          await createUserProfile(user)
-          router.push('/profile')
+          const { user, message, uid }: any = result;
+          setUserId(uid);
+          setUserDetails({ ...userDetails, id: uid });
+          await createUserProfile(user);
+          router.push("/profile");
         } else {
-          setIsLoading(false)
-          throw new Error()
+          setIsLoading(false);
+          throw new Error();
         }
-        console.log(response)
+        console.log(response);
         // Handle successful user creation (e.g., store user information)
       } catch (error) {
-        setIsLoading(false)
-        console.log(error)
+        setIsLoading(false);
+        console.log(error);
         // Handle error (e.g., show error message to user)
       }
-    }
-    createUser(userSignup.email, userSignup.password)
-  }
-
-  const handleUseGoogle = async () => {
-    try {
-      console
-      const resp = await fetch('localhost://4000/auth/google')
-      const result = await resp.json()
-      console.log(result)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+    };
+    createUser(userSignup.email, userSignup.password);
+  };
 
   return (
     <section className=" xs:p-[40px]">
@@ -111,12 +100,11 @@ const Signup = () => {
       <p className="paragraph mt-2">
         Let’s get you started sharing your links!
       </p>
-      <button onClick={() => handleUseGoogle}>Use Google</button>
       <form
         onSubmit={(e) => handleSubmit(e)}
         onClick={() => {
-          setPasswordErr(false)
-          setEmailErr(false)
+          setPasswordErr(false);
+          setEmailErr(false);
         }}
       >
         <div className="relative mt-[40px]">
@@ -125,7 +113,7 @@ const Signup = () => {
           </label>
           <div
             className={`
-              input-container ${emailErr ? 'border-red' : 'border-bcolor'}
+              input-container ${emailErr ? "border-red" : "border-bcolor"}
             `}
           >
             <Image
@@ -153,7 +141,7 @@ const Signup = () => {
           </label>
           <div
             className={`
-              input-container ${passwordErr ? 'border-red' : 'border-bcolor'}
+              input-container ${passwordErr ? "border-red" : "border-bcolor"}
             `}
           >
             <Image src="/images/lock.svg" alt="lock" width={16} height={16} />
@@ -183,7 +171,7 @@ const Signup = () => {
           </label>
           <div
             className={`
-              input-container ${passwordErr ? 'border-red' : 'border-bcolor'}
+              input-container ${passwordErr ? "border-red" : "border-bcolor"}
             `}
           >
             <Image src="/images/lock.svg" alt="lock" width={16} height={16} />
@@ -216,7 +204,7 @@ const Signup = () => {
         </div>
       </form>
       <p className="paragraph text-center">
-        Already have an account?{' '}
+        Already have an account?{" "}
         <Link
           href="/login"
           className="text-purple block xs:inline hover:text-phover"
@@ -225,7 +213,7 @@ const Signup = () => {
         </Link>
       </p>
     </section>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
